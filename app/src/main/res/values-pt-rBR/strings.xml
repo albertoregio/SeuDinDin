@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeuDinDin</string>
+    <string name="show_categories">Mostrar Categorias</string>
+    <string name="categories_activity">Categorias</string>
+    <string name="categories_name">Nome da Categoria</string>
+    <string name="categories_parent">Categoria Pai</string>
+</resources>

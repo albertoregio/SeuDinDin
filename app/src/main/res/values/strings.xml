@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">YourMoney</string>
+    <string name="show_categories">Show Categories</string>
+    <string name="categories_activity">Categories</string>
+    <string name="categories_name">Category's Name</string>
+    <string name="categories_parent">Parent Category</string>
+</resources>
