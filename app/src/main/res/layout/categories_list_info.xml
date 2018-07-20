@@ -3,32 +3,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="70dp"
+    >
 
     <ImageView
         android:id="@+id/categories_list_image_info"
         android:layout_width="46dp"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
-        app:srcCompat="@drawable/ic_category_restaurant" />
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/img_teste" />
 
     <TextView
         android:id="@+id/categories_list_name_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@id/categories_list_image_info"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/categories_list_image_info"
+        android:layout_marginStart="16dp"
         android:text="TextView"
         android:textSize="22sp" />
 
     <ImageView
         android:id="@+id/categories_list_arrow_info"
-        android:layout_width="46dp"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
+        android:layout_centerVertical="true"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/ic_category_arrow_right" />
 </RelativeLayout>

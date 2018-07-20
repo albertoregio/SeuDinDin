@@ -2,7 +2,19 @@
 <resources>
     <string name="app_name">SeuDinDin</string>
     <string name="show_categories">Mostrar Categorias</string>
+
     <string name="categories_activity">Categorias</string>
     <string name="categories_name">Nome da Categoria</string>
     <string name="categories_parent">Categoria Pai</string>
+    <string name="categories_icon_color">Cor do Ícone</string>
+
+    <string name="activity_categories_detail_title">Editar categoria</string>
+
+    <string name="command_save">Salvar</string>
+    <string name="command_delete">Apagar</string>
+    <string name="command_cancel_title">Cancelar alterações</string>
+    <string name="command_cancel_dialog">As alterações serão perdidas.\nDeseja continuar?</string>
+    <string name="command_yes">Sim</string>
+    <string name="command_no">Não</string>
+
 </resources>

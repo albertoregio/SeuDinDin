@@ -12,12 +12,17 @@
         <activity android:name=".mainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".categories.CategoriesListActivity" />
-        <activity android:name=".categories.CategoriesDetailActivity"></activity>
+        <activity android:name=".categories.CategoriesDetailActivity"
+            android:parentActivityName=".categories.CategoriesListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

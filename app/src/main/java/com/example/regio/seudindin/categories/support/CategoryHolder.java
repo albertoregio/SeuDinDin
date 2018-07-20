@@ -23,6 +23,6 @@ public class CategoryHolder extends RecyclerView.ViewHolder {
     // Construtor da classe
     public CategoryHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(itemView);
+        ButterKnife.bind(this,itemView);
     }
 }

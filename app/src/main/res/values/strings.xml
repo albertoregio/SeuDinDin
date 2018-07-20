@@ -1,7 +1,20 @@
 <resources>
     <string name="app_name">YourMoney</string>
     <string name="show_categories">Show Categories</string>
+
     <string name="categories_activity">Categories</string>
-    <string name="categories_name">Category's Name</string>
+    <string name="categories_name">Category\'s Name</string>
     <string name="categories_parent">Parent Category</string>
+    <string name="categories_icon_color">Icon\'s color</string>
+
+    <string name="activity_categories_detail_title">Category edit</string>
+
+    <string name="command_save">Save</string>
+    <string name="command_delete">Delete</string>
+    <string name="command_cancel_title">Confirmation</string>
+    <string name="command_cancel_dialog">All changes will be lost.\nDo you want to continue?</string>
+
+    <string name="command_yes">Yes</string>
+    <string name="command_no">No</string>
+
 </resources>
