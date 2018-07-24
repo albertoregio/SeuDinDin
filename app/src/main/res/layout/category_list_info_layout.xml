@@ -4,6 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
+    android:clickable="true"
+    android:id="@+id/categories_list_layout"
     >
 
     <ImageView
@@ -14,7 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/img_teste" />
+        app:srcCompat="@drawable/layer_category_icon" />
 
     <TextView
         android:id="@+id/categories_list_name_info"
@@ -33,5 +35,5 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/ic_category_arrow_right" />
+        app:srcCompat="@drawable/ic_action_arrow_right" />
 </RelativeLayout>

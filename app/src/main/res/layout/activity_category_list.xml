@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".categories.CategoriesListActivity">
+    tools:context=".ui.categories.CategoryListActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_categories_insert"
@@ -30,6 +30,6 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/categories_list_info" />
+        tools:listitem="@layout/category_list_info_layout" />
 
 </android.support.design.widget.CoordinatorLayout>

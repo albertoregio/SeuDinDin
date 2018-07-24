@@ -2,17 +2,22 @@
     <string name="app_name">YourMoney</string>
     <string name="show_categories">Show Categories</string>
 
-    <string name="categories_activity">Categories</string>
-    <string name="categories_name">Category\'s Name</string>
-    <string name="categories_parent">Parent Category</string>
-    <string name="categories_icon_color">Icon\'s color</string>
+    <string name="categories_activity_title">Categories</string>
+    <string name="categories_name_label">Category\'s Name</string>
+    <string name="categories_parent_label">Parent Category</string>
+    <string name="categories_parent_value">[None]</string>
+    <string name="categories_icon_color_label">Icon\'s color</string>
 
-    <string name="activity_categories_detail_title">Category edit</string>
+    <string name="categories_detail_activity_title_insert">New category</string>
+    <string name="categories_detail_activity_title_update">Edit Category</string>
 
     <string name="command_save">Save</string>
     <string name="command_delete">Delete</string>
     <string name="command_cancel_title">Confirmation</string>
     <string name="command_cancel_dialog">All changes will be lost.\nDo you want to continue?</string>
+    <string name="command_delete_title">Delete</string>
+    <string name="command_delete_dialog">Do you want DELETE this category?\n\nObs.: The linked transactions will be changed to \"No category\".
+    </string>
 
     <string name="command_yes">Yes</string>
     <string name="command_no">No</string>

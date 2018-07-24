@@ -3,17 +3,22 @@
     <string name="app_name">SeuDinDin</string>
     <string name="show_categories">Mostrar Categorias</string>
 
-    <string name="categories_activity">Categorias</string>
-    <string name="categories_name">Nome da Categoria</string>
-    <string name="categories_parent">Categoria Pai</string>
-    <string name="categories_icon_color">Cor do Ícone</string>
+    <string name="categories_activity_title">Categorias</string>
+    <string name="categories_name_label">Nome da Categoria</string>
+    <string name="categories_parent_label">Categoria Pai</string>
+    <string name="categories_parent_value">[Nenhum]</string>
+    <string name="categories_icon_color_label">Cor do Ícone</string>
 
-    <string name="activity_categories_detail_title">Editar categoria</string>
+    <string name="categories_detail_activity_title_insert">Nova categoria</string>
+    <string name="categories_detail_activity_title_update">Editar Categoria</string>
 
     <string name="command_save">Salvar</string>
     <string name="command_delete">Apagar</string>
     <string name="command_cancel_title">Cancelar alterações</string>
     <string name="command_cancel_dialog">As alterações serão perdidas.\nDeseja continuar?</string>
+    <string name="command_delete_title">Apagar</string>
+    <string name="command_delete_dialog">Deseja APAGAR a categoria selecionada?\n\nObs.: As transações vinculadas serão transformadas em \"Sem categoria\".
+    </string>
     <string name="command_yes">Sim</string>
     <string name="command_no">Não</string>
 

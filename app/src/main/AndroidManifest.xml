@@ -15,9 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".categories.CategoriesListActivity" />
-        <activity android:name=".categories.CategoriesDetailActivity"
-            android:parentActivityName=".categories.CategoriesListActivity">
+        <activity android:name=".ui.categories.CategoryListActivity"
+            android:label="@string/categories_activity_title"
+            />
+        <activity android:name=".ui.categories.CategoryDetailActivity"
+            android:parentActivityName=".ui.categories.CategoryListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

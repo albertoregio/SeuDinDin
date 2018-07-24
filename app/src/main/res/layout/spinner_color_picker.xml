@@ -11,7 +11,7 @@
         android:layout_height="20dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
-        android:src="@drawable/circle"
+        android:src="@drawable/shape_circle"
         android:scaleType="fitXY"
         />
 

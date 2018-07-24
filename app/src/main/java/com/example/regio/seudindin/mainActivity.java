@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.regio.seudindin.categories.CategoriesListActivity;
+import com.example.regio.seudindin.ui.categories.CategoryListActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,7 +25,7 @@ public class mainActivity extends AppCompatActivity {
     // Metodo responsavel pelo clique do botao para exibicao das categorias
     @OnClick(R.id.main_btn_show_categories)
     public void showCategories(View view) {
-        Intent intent = new Intent(this, CategoriesListActivity.class);
+        Intent intent = new Intent(this, CategoryListActivity.class);
         startActivity(intent);
     }
 }
