@@ -1,7 +1,7 @@
-package com.example.regio.seudindin.categories.support;
+package com.example.regio.seudindin.ui.categories.support;
 
 // Classe que representa os dados da categoria
-public class CategoryModel {
+public class CategoryListModel {
 
     // Declaracao de variaveis
     private int id;
