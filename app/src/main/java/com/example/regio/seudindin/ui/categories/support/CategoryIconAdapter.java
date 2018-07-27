@@ -25,8 +25,8 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
     //Declaracao de variaveis
     private final List<Integer> iconList;
     private final Context context;
-    private int color = R.color.blue_200;
-    private int selectedPosition = 0;
+    private int color = R.color.default_color_spinner;
+    private int selectedIcon = 0;
 
 
     // Construtor da classe
@@ -37,9 +37,8 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
         // Insere os icones disponiveis para selecao
         final TypedArray imgs = context.getResources().obtainTypedArray(R.array.array_category_icon_image);
         for (int x=0; x < imgs.length(); x++) {
-            insertIconDrawable(imgs.getResourceId(x,0));
+            iconList.add(imgs.getResourceId(x,0));
         }
-
     }
 
 
@@ -55,8 +54,16 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
         notifyDataSetChanged();
     }
 
-    public void setSelectedPosition(int position) {
-        selectedPosition = position;
+
+    // Recupera o icone selecionado
+    public int getSelectedIcon() {
+        return selectedIcon;
+    }
+
+
+    // Atribui qual o icone deve ser selecionado
+    public void setSelectedIcon(int icon) {
+        selectedIcon = icon;
         notifyDataSetChanged();
     }
 
@@ -77,7 +84,7 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
         holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setSelectedPosition(position);
+                setSelectedIcon(iconList.get(position));
             }
         });
 
@@ -85,16 +92,17 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
         final LayerDrawable layerDrawable = (LayerDrawable) holder.icon.getDrawable();
 
         // Cor do icone
-        int color = ContextCompat.getColor(context, this.color);
+//        int color = ContextCompat.getColor(context, this.color);
         final GradientDrawable iconShapeDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.ic_category_icon_color);
+        iconShapeDrawable.setColor(this.color);
 
         // Imagem do icone
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(),iconList.get(position), null);
         layerDrawable.setDrawableByLayerId(R.id.ic_category_icon_image,drawable);
-        iconShapeDrawable.setColor(color);
+
 
         // Borda do item selecionado
-        if (position == selectedPosition)
+        if (iconList.get(position) == selectedIcon)
             iconShapeDrawable.setStroke(10, Color.BLACK);
         else
             iconShapeDrawable.setStroke(0, Color.BLACK);
@@ -106,13 +114,6 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
     @Override
     public int getItemCount() {
         return (iconList != null) ? iconList.size() : 0;
-    }
-
-
-    // Insere na tela um novo icone de categoria
-    public void insertIconDrawable(Integer icon) {
-        iconList.add(icon);
-        notifyItemInserted(getItemCount());
     }
 
 }

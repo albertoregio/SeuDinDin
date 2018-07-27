@@ -4,58 +4,61 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.example.regio.seudindin.model.CategoryModel;
+import com.example.regio.seudindin.persistence.dao.CategoryArrayDAO;
+
+import java.util.List;
+
 // Classe responsavel pela comunicacao entre a ui e os dados do negocio
-public class CategoryViewModel extends ViewModel {
+public class CategoryViewModel extends ViewModel implements ICategoryViewModel {
 
     // Declaracao de variaveis
-    private MutableLiveData<Integer> id;
-    private MutableLiveData<Integer> id_parent;
-    private MutableLiveData<Integer> color;
-    private MutableLiveData<Integer> icon;
-    private MutableLiveData<String> name;
+    private CategoryArrayDAO categoryArrayDAO = new CategoryArrayDAO();
+    private MutableLiveData<List<CategoryModel>> categoriesModelLiveData = new MutableLiveData<>();
+
 
     // Construtor da classe
     public CategoryViewModel() {
-        color = new MutableLiveData<Integer>();
-        icon = new MutableLiveData<Integer>();
-        name = new MutableLiveData<String>();
+        categoriesModelLiveData.setValue(categoryArrayDAO.getCategoryList());
     }
 
 
-    // Recupera o atributo nome
-    public LiveData<Integer> getColor() {
-        return color;
+    // Recupera a lista de categorias
+    public LiveData<List<CategoryModel>> load() {
+        return categoriesModelLiveData;
     }
 
 
-    // Recupera o atributo nome
-    public LiveData<Integer> getIcon() {
-        return icon;
+    // Recupera uma determinada categoria
+    public LiveData<CategoryModel> load(int id) {
+
+        MutableLiveData<CategoryModel> liveData = new MutableLiveData<CategoryModel>();
+        liveData.setValue(categoryArrayDAO.getCategory(id));
+
+        return liveData;
     }
 
 
-    // Recupera o atributo nome
-    public LiveData<String> getName() {
-        return name;
+    // Insere/Atualiza uma categoria
+    public void save(CategoryModel categoryModel) {
+        categoryArrayDAO.insertCategory(categoryModel);
+        categoriesModelLiveData.setValue(categoryArrayDAO.getCategoryList());
     }
 
 
-    // Atribui um valor ao atributo color
-    public void setColor(Integer color) {
-        this.color.setValue(color);
+    // Remove uma categoria
+    public void delete(int id) {
+        categoryArrayDAO.deleteCategory(id);
+        categoriesModelLiveData.setValue(categoryArrayDAO.getCategoryList());
     }
 
 
-    // Atribui um valor ao atributo icon
-    public void setIcon(Integer icon) {
-        this.icon.setValue(icon);
+    // Remove uma categoria
+    public void delete(CategoryModel categoryModel) {
+        categoryArrayDAO.deleteCategory(categoryModel);
+        categoriesModelLiveData.setValue(categoryArrayDAO.getCategoryList());
     }
 
-
-    // Atribui um valor ao atributo name
-    public void setName(String name) {
-        this.name.setValue(name);
-    }
 
 
 }

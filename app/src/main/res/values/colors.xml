@@ -16,4 +16,5 @@
     <color name="brown_200">#BCAAA4</color>
     <color name="gray_200">#EEEEEE</color>
 
+    <color name="default_color_spinner">@color/red_200</color>
 </resources>

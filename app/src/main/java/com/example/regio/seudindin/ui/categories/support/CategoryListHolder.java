@@ -15,8 +15,8 @@ import butterknife.ButterKnife;
 public class CategoryListHolder extends RecyclerView.ViewHolder {
 
     // Declaracao e alimentacao das variaveis
-    @BindView(R.id.categories_list_image_info) ImageView icon;
-    @BindView(R.id.categories_list_name_info) TextView category;
+    @BindView(R.id.category_list_image) ImageView icon;
+    @BindView(R.id.category_list_name) TextView category;
     @BindView(R.id.categories_list_layout) RelativeLayout layout;
 
 

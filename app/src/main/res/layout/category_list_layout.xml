@@ -9,7 +9,7 @@
     >
 
     <ImageView
-        android:id="@+id/categories_list_image_info"
+        android:id="@+id/category_list_image"
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:layout_alignParentStart="true"
@@ -19,11 +19,11 @@
         app:srcCompat="@drawable/layer_category_icon" />
 
     <TextView
-        android:id="@+id/categories_list_name_info"
+        android:id="@+id/category_list_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/categories_list_image_info"
+        android:layout_toEndOf="@+id/category_list_image"
         android:layout_marginStart="16dp"
         android:text="TextView"
         android:textSize="22sp" />

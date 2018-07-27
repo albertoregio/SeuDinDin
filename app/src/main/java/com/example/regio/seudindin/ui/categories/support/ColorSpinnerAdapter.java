@@ -57,7 +57,8 @@ public class ColorSpinnerAdapter extends ArrayAdapter<Integer> implements Spinne
     private View createItemView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         // Recupera a cor a ser exibida no shape
-        int color = ContextCompat.getColor(mContext, mObjects.get(position));
+        //int color = ContextCompat.getColor(mContext, mObjects.get(position));
+        int color = mObjects.get(position);
 
         // Atribui a cor ao objeto shape
         final View view = mInflater.inflate(mResource, parent, false);

@@ -1,11 +1,10 @@
 package com.example.regio.seudindin.ui.categories;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,15 +20,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.regio.seudindin.R;
+import com.example.regio.seudindin.model.CategoryModel;
 import com.example.regio.seudindin.ui.categories.support.CategoryIconAdapter;
 import com.example.regio.seudindin.ui.categories.support.ColorSpinnerAdapter;
-import com.example.regio.seudindin.viewmodel.CategoryViewModel;
+import com.example.regio.seudindin.viewmodel.CategoryViewModelFactory;
+import com.example.regio.seudindin.viewmodel.ICategoryViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 // Classe responsavel por controlar o Activity do detalhe de uma categoria
 public class CategoryDetailActivity extends AppCompatActivity {
@@ -44,9 +48,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
     public static final int INSERT = 0;
     public static final int UPDATE = 1;
     private int operation = INSERT;
+    private int id = 0;
+    private int color;
 
     private CategoryIconAdapter categoryIconAdapter;
     private ColorSpinnerAdapter colorSpinnerAdapter;
+    private Integer[] colorsList;
+/*
     private Integer[] colorsList = {
             R.color.red_200,
             R.color.pink_200,
@@ -58,7 +66,18 @@ public class CategoryDetailActivity extends AppCompatActivity {
             R.color.brown_200,
             R.color.gray_200};
 
-    private CategoryViewModel categoryViewModel;
+    private int[] xyz = {
+            R.color.red_200,
+            R.color.pink_200,
+            R.color.purple_200,
+            R.color.blue_200,
+            R.color.light_green_200,
+            R.color.yellow_200,
+            R.color.orange_200,
+            R.color.brown_200,
+            R.color.gray_200};
+*/
+    private ICategoryViewModel categoryViewModel;
 
 
     // Metodo responsavel pela criacao do activity
@@ -70,13 +89,17 @@ public class CategoryDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Recupera a lista de cores disponiveis
-        //colorsList = getResources().getIntArray(R.array.array_color_spinner);
+        int[] aux = getResources().getIntArray(R.array.array_color_spinner);
+        colorsList = convertArrays(aux);
 
         // Definindo o tipo de operacao do activity
-        setActivityOperation(getIntent().getIntExtra("operation",INSERT));
+        setActivityOperation();
 
         // Configura o toolbar
         setupToolbar();
+
+        // Configura os observers do view model
+        setupObservers();
 
         // Configura o combobox de selecao de cores
         setupColorSelector();
@@ -84,51 +107,12 @@ public class CategoryDetailActivity extends AppCompatActivity {
         // Configura o componente reclyclerview para selecao do icone
         setupIconSelector();
 
-        // Cria o observer para o campo de cor
-        final Observer<Integer> colorObserver = new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer newColor) {
-                int index = Arrays.asList(colorsList).indexOf(newColor);
-                colorSpinner.setSelection(index);
-            }
-        };
+    }
 
-        // Cria o observer para o campo de icone
-        final Observer<Integer> iconObserver = new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer newIcon) {
-                categoryIconAdapter.setSelectedPosition(newIcon);
-            }
-        };
 
-        // Cria o observer para o campo de nome
-        final Observer<String> nameObserver = new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String newName) {
-                nameTextView.setText(newName);
-            }
-        };
-
-        //Recupera o viewModel e atribui os observers
-        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-        categoryViewModel.getColor().observe(this,colorObserver);
-        categoryViewModel.getIcon().observe(this,iconObserver);
-        categoryViewModel.getName().observe(this,nameObserver);
-
-        // Configura o botao de selecao da categoria-pai
-        parentButton = this.findViewById(R.id.categoriesDetail_btn_select_categories);
-        parentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //COMANDOS DE TESTE
-                int iconValue = 3;//getResources().obtainTypedArray(R.array.array_category_icon_image).getResourceId(3,0);
-
-                categoryViewModel.setName("TESTE");
-                categoryViewModel.setColor(R.color.light_green_200);
-                categoryViewModel.setIcon(iconValue);
-
-            }
-        });
+    // Configura o botao de selecao da categoria-pai
+    @OnClick(R.id.categoriesDetail_btn_select_categories)
+    public void selectCategoryParent() {
 
     }
 
@@ -177,6 +161,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
     // Comando para salvar as informacoes da categoria
     private void actionSave() {
+        CategoryModel categoryModel = new CategoryModel();
+        categoryModel.setId(id);
+        categoryModel.setName(nameTextView.getText().toString());
+        categoryModel.setColor(color);
+        categoryModel.setIcon(categoryIconAdapter.getSelectedIcon());
+        categoryViewModel.save(categoryModel);
+
         Toast.makeText(getApplicationContext(), "TODO: command save", Toast.LENGTH_LONG).show();
         finish();
     }
@@ -191,6 +182,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
             .setPositiveButton(R.string.command_yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    categoryViewModel.delete(id);
                     Toast.makeText(getApplicationContext(), "TODO: command delete", Toast.LENGTH_LONG).show();
                     finish();
                 }
@@ -220,8 +212,9 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
 
     // Atribui o tipo de operacao do activity: insercao ou atualizacao
-    private void setActivityOperation(int operation) {
-        this.operation = operation;
+    private void setActivityOperation() {
+        this.operation = getIntent().getIntExtra("operation",INSERT);
+        id = getIntent().getIntExtra("category_id", 0);
 
         switch (operation) {
             case INSERT:
@@ -244,6 +237,39 @@ public class CategoryDetailActivity extends AppCompatActivity {
     }
 
 
+    // Metodo responsavel por configurar os observers do view model
+    private void setupObservers() {
+
+        final Observer<CategoryModel> categoryObserver = new Observer<CategoryModel>() {
+            @Override
+            public void onChanged(@Nullable CategoryModel categoryModel) {
+
+                if (categoryModel != null) {
+
+                    // Atribui o id
+                    id = categoryModel.getId();
+
+                    // Atribui a cor
+                    color = categoryModel.getColor();
+                    int index = Arrays.asList(colorsList).indexOf(color);
+                    colorSpinner.setSelection(index);
+
+                    // Atribui o icone
+                    categoryIconAdapter.setSelectedIcon(categoryModel.getIcon());
+
+                    // Atribui o nome
+                    nameTextView.setText(categoryModel.getName());
+                }
+            }
+        };
+
+        //Recupera o viewModel e atribui os observers
+        //categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        categoryViewModel = CategoryViewModelFactory.getInstance(this);
+        categoryViewModel.load(id).observe(this,categoryObserver);
+    }
+
+
     // Metodo responsavel por configurar a lista de cores disponiveis
     private void setupColorSelector() {
         colorSpinnerAdapter = new ColorSpinnerAdapter(this, R.layout.spinner_color_picker, Arrays.asList(colorsList));
@@ -252,8 +278,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 int index = adapterView.getSelectedItemPosition();
-                categoryIconAdapter.setColor(colorsList[index]);
-
+                color = colorsList[index];
+                categoryIconAdapter.setColor(color);
             }
 
             @Override
@@ -269,10 +295,20 @@ public class CategoryDetailActivity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this,3,GridLayoutManager.HORIZONTAL,false);
 
         categoryIconAdapter = new CategoryIconAdapter(this, new ArrayList<Integer>(0));
-        categoryIconAdapter.setColor(colorsList[1]);
+        categoryIconAdapter.setSelectedIcon(R.drawable.ic_category_icon_calculator);
 
         iconsRecycler.setAdapter(categoryIconAdapter);
         iconsRecycler.setLayoutManager(layoutManager);
+    }
+
+
+    // Metodo auxiliar para converter umtipo de array e outro
+    private Integer[] convertArrays(int[] array) {
+        Integer[] integerArray = new Integer[array.length];
+        for (int i = 0; i < array.length; i++) {
+            integerArray[i] = array[i];
+        }
+        return integerArray;
     }
 
 }
