@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.regio.seudindin.R;
 import com.example.regio.seudindin.model.CategoryModel;
+import com.example.regio.seudindin.persistence.dao.query_model.CategoryChildrenCountQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
 
     //Declaracao de variaveis
     private final Context mContext;
-    private List<CategoryModel> categoryList;
-    private CategoryModel selectedItem;
+    private List<CategoryChildrenCountQuery> categoryList;
+    private CategoryChildrenCountQuery selectedItem;
     private View.OnClickListener editListener;
 
 
@@ -48,7 +49,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
     @Override
     public void onBindViewHolder(@NonNull CategoryListHolder holder, final int position) {
 
-        final CategoryModel category = categoryList.get(position);
+        final CategoryChildrenCountQuery category = categoryList.get(position);
 
         // Campo de texto
         holder.category.setText(category.getName());
@@ -66,6 +67,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
         // Imagem do icone
         Drawable drawable = ResourcesCompat.getDrawable(mContext.getResources(),category.getIcon(), null);
         layerDrawable.setDrawableByLayerId(R.id.ic_category_icon_image,drawable);
+
+        // Imagem da seta
+        if (category.getQtde() == 0) {
+            holder.arrow.setVisibility(View.INVISIBLE);
+        } else {
+            holder.arrow.setVisibility(View.VISIBLE);
+        }
 
         // Evento de clique
         holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +96,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
 
 
     // Atribui uma nova lista e atualiza ui
-    public void setCategoryList(List<CategoryModel> categories) {
+    public void setCategoryList(List<CategoryChildrenCountQuery> categories) {
         this.categoryList = categories;
         notifyDataSetChanged();
 
@@ -96,7 +104,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
 
 
     // Recupera a categoria selecionada
-    public CategoryModel getSelectedItem() {
+    public CategoryChildrenCountQuery getSelectedItem() {
         return selectedItem;
     }
 

@@ -8,7 +8,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 // Classe responsavel por recuperar uma instancia do database
-@Database(entities = {CategoryModel.class}, version = 2, exportSchema = false)
+@Database(entities = {CategoryModel.class}, version = 1, exportSchema = false)
 public abstract class MyRoomDatabase extends RoomDatabase {
 
     // Declaração de variáveis
@@ -24,6 +24,7 @@ public abstract class MyRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             MyRoomDatabase.class, "my_database")
                             .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
                             .build();
                 }
 

@@ -1,10 +1,12 @@
 package com.example.regio.seudindin.ui.categories;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,13 +25,10 @@ import com.example.regio.seudindin.R;
 import com.example.regio.seudindin.model.CategoryModel;
 import com.example.regio.seudindin.ui.categories.support.CategoryIconAdapter;
 import com.example.regio.seudindin.ui.categories.support.ColorSpinnerAdapter;
-import com.example.regio.seudindin.viewmodel.CategoryViewModelFactory;
-import com.example.regio.seudindin.viewmodel.ICategoryViewModel;
+import com.example.regio.seudindin.viewmodel.CategoryViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,39 +44,18 @@ public class CategoryDetailActivity extends AppCompatActivity {
     @BindView(R.id.categoriesDetail_spn_select_colors) Spinner colorSpinner;
     @BindView(R.id.category_icons_recycleview) RecyclerView iconsRecycler;
 
+    private static final int PICK_CATEGORY_SELECT = 999;
     public static final int INSERT = 0;
     public static final int UPDATE = 1;
     private int operation = INSERT;
     private int id = 0;
     private int color;
+    private int parent_id;
 
     private CategoryIconAdapter categoryIconAdapter;
     private ColorSpinnerAdapter colorSpinnerAdapter;
     private Integer[] colorsList;
-/*
-    private Integer[] colorsList = {
-            R.color.red_200,
-            R.color.pink_200,
-            R.color.purple_200,
-            R.color.blue_200,
-            R.color.light_green_200,
-            R.color.yellow_200,
-            R.color.orange_200,
-            R.color.brown_200,
-            R.color.gray_200};
-
-    private int[] xyz = {
-            R.color.red_200,
-            R.color.pink_200,
-            R.color.purple_200,
-            R.color.blue_200,
-            R.color.light_green_200,
-            R.color.yellow_200,
-            R.color.orange_200,
-            R.color.brown_200,
-            R.color.gray_200};
-*/
-    private ICategoryViewModel categoryViewModel;
+    private CategoryViewModel categoryViewModel;
 
 
     // Metodo responsavel pela criacao do activity
@@ -92,9 +70,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
         int[] aux = getResources().getIntArray(R.array.array_color_spinner);
         colorsList = convertArrays(aux);
 
-        // Definindo o tipo de operacao do activity
-        setActivityOperation();
-
         // Configura o toolbar
         setupToolbar();
 
@@ -107,15 +82,33 @@ public class CategoryDetailActivity extends AppCompatActivity {
         // Configura o componente reclyclerview para selecao do icone
         setupIconSelector();
 
+        // Definindo o tipo de operacao do activity
+        setActivityOperation();
+
     }
 
 
     // Configura o botao de selecao da categoria-pai
     @OnClick(R.id.categoriesDetail_btn_select_categories)
     public void selectCategoryParent() {
-
+        Intent intent = new Intent(this, CategoryListSelectActivity.class);
+        //intent.putExtra("category_parent_id", 0);
+        startActivityForResult(intent,PICK_CATEGORY_SELECT);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (PICK_CATEGORY_SELECT) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    parent_id = data.getIntExtra("category_parent_id", 0);
+                    parentButton.setText(String.valueOf(parent_id));
+                }
+                break;
+            }
+        }
+    }
 
     // Configura o menu da toolbar
     @Override
@@ -163,6 +156,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     private void actionSave() {
         CategoryModel categoryModel = new CategoryModel();
         categoryModel.setId(id);
+        categoryModel.setParent_id(parent_id);
         categoryModel.setName(nameTextView.getText().toString());
         categoryModel.setColor(color);
         categoryModel.setIcon(categoryIconAdapter.getSelectedIcon());
@@ -223,6 +217,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
             default:
                 toolbar.setTitle(R.string.categories_detail_activity_title_update);
+                categoryViewModel.setCategoryDetailIdInput(id);
                 break;
 
         }
@@ -249,6 +244,14 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     // Atribui o id
                     id = categoryModel.getId();
 
+                    // Atribui a categoria-pai
+                    if (categoryModel.getParent_id() == null) {
+                        parentButton.setText(R.string.categories_parent_value);
+                    } else {
+                        parentButton.setText(categoryModel.getParent_id().toString());
+                    }
+
+
                     // Atribui a cor
                     color = categoryModel.getColor();
                     int index = Arrays.asList(colorsList).indexOf(color);
@@ -264,9 +267,9 @@ public class CategoryDetailActivity extends AppCompatActivity {
         };
 
         //Recupera o viewModel e atribui os observers
-        //categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-        categoryViewModel = CategoryViewModelFactory.getInstance(this);
-        categoryViewModel.load(id).observe(this,categoryObserver);
+        //categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModelArray.class);
+        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        categoryViewModel.getCategoryDetailLiveData().observe(this,categoryObserver);
     }
 
 

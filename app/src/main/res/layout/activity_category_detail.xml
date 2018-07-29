@@ -101,8 +101,9 @@
                     android:layout_marginTop="8dp"
                     android:ems="10"
                     android:hint="@string/categories_name_label"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapSentences"
                     android:layout_gravity="bottom"
+                    android:imeOptions="actionDone"
                     app:layout_anchor="@id/categoriesDetail_btn_select_categories"
                     app:layout_anchorGravity="bottom"
                     />

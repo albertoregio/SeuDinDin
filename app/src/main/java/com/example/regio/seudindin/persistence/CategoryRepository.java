@@ -8,28 +8,29 @@ import android.os.AsyncTask;
 import com.example.regio.seudindin.R;
 import com.example.regio.seudindin.model.CategoryModel;
 import com.example.regio.seudindin.persistence.dao.CategoryDAO;
+import com.example.regio.seudindin.persistence.dao.query_model.CategoryChildrenCountQuery;
 
 import java.util.List;
 
 // Classe responsavel por recuperar as classes DAO
-public class MyRepository {
+public class CategoryRepository {
 
     // Declaracao de variaveis
     private CategoryDAO categoryDAO;
-    private LiveData<List<CategoryModel>> categories;
+
 
     // Construtor da classe
-    public MyRepository(Application application) {
+    public CategoryRepository(Application application) {
         MyRoomDatabase db = MyRoomDatabase.getDatabase(application);
         categoryDAO = db.categoryDAO();
-        categories = categoryDAO.getCategories();
     }
 
 
-    // Recupera todas as categorias
-    public LiveData<List<CategoryModel>>  getCategories() {
-        return categories;
+    // Recupera a lista de categorias filhas de uma determinada categoria
+    public LiveData<List<CategoryChildrenCountQuery>> getCategoryChildrenList(Integer id) {
+        return categoryDAO.getCategoryChildrenList(id);
     }
+
 
     // Recupera uma categoria especifica
     public LiveData<CategoryModel>  getCategory(int id) {
@@ -53,24 +54,41 @@ public class MyRepository {
     }
 
 
+    // Recupera a quantidade de filhos de uma determinada categoria
+    public int getChildrenCount(int id) {
+        return categoryDAO.getChildrenCount(id);
+    }
+
+
     // Insere uma categoria
     public void insert(CategoryModel categoryModel) {
-        new insertAsyncTask(categoryDAO).execute(categoryModel);
+        new AsyncTask<CategoryModel,Void,Void>() {
+            @Override
+            protected Void doInBackground(final CategoryModel... params) {
+                categoryDAO.insert(params[0]);
+                return null;
+            }
+        }.execute(categoryModel);
     }
 
 
-    // Classe interna para execucao da insercao sem travar a thread da ui
-    private static class insertAsyncTask extends AsyncTask<CategoryModel, Void, Void> {
-        private CategoryDAO asyncTaskDao;
+    // Remove uma categoria
+    public void delete(int id) {
+        CategoryModel model = new CategoryModel();
+        model.setId(id);
 
-        public insertAsyncTask(CategoryDAO dao) {
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final CategoryModel... params) {
-            asyncTaskDao.insert(params[0]);
-            return null;
-        }
+        new AsyncTask<CategoryModel,Void,Void>() {
+            @Override
+            protected Void doInBackground(final CategoryModel... params) {
+                categoryDAO.delete(params[0]);
+                return null;
+            }
+        }.execute(model);
     }
+
+    // Remove uma categoria
+    public void delete(CategoryModel categoryModel) {
+        delete(categoryModel.getId());
+    }
+
 }

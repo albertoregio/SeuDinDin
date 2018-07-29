@@ -9,6 +9,8 @@
     <string name="categories_parent_value">[Nenhum]</string>
     <string name="categories_icon_color_label">Cor do Ícone</string>
 
+    <string name="category_list_select_activity_title">Selecione uma categoria</string>
+
     <string name="categories_detail_activity_title_insert">Nova categoria</string>
     <string name="categories_detail_activity_title_update">Editar Categoria</string>
 
