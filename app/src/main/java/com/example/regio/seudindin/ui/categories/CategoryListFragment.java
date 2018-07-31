@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.regio.seudindin.R;
-import com.example.regio.seudindin.persistence.dao.query_model.CategoryChildrenCountQuery;
+import com.example.regio.seudindin.model.CategoryModel;
+import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
 import com.example.regio.seudindin.ui.categories.support.CategoryListAdapter;
+import com.example.regio.seudindin.viewmodel.CategoryChildrenListLiveData;
 import com.example.regio.seudindin.viewmodel.CategoryViewModel;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class CategoryListFragment extends Fragment {
     private CategoryViewModel categoryListViewModel;
     private Context context;
     @BindView(R.id.categories_recycleview) RecyclerView rec_listaCategories;
+
+    private boolean showRoot = false;
 
 
     // Construtor da classe
@@ -84,7 +87,7 @@ public class CategoryListFragment extends Fragment {
 
 
     // Metodo responsavel por avisar ao activity que um item foi selecionado
-    public void onCategorySelect(CategoryChildrenCountQuery category) {
+    public void onCategorySelect(CategoryModel category) {
         if (mListener != null) {
             mListener.onCategoryListSelect(category);
         }
@@ -106,6 +109,11 @@ public class CategoryListFragment extends Fragment {
         } else {
             throw new RuntimeException(context.toString() + " must implement OnCategoryListSelectListener");
         }
+    }
+
+    // Atribui o tipo de operacao do activity: insercao ou atualizacao
+    public void setShowRoot(boolean show) {
+        this.showRoot = show;
     }
 
 
@@ -132,21 +140,18 @@ public class CategoryListFragment extends Fragment {
 
     // Metodo responsavel por configurar os observers do view model
     private void setupObservers() {
-        final Observer<List<CategoryChildrenCountQuery>> categoryListObserver = new Observer<List<CategoryChildrenCountQuery>>() {
-            @Override
-            public void onChanged(@Nullable List<CategoryChildrenCountQuery> categoryModelList) {
-                categoryAdapter.setCategoryList(categoryModelList);
-            }
-        };
+        final Observer<List<CategoryModel>> categoryListObserver = categoryModelList -> categoryAdapter.setCategoryList(categoryModelList);
 
         //Recupera o viewModel e atribui os observers
         categoryListViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-        categoryListViewModel.getChildrenListLiveData().observe(this,categoryListObserver);
+        CategoryChildrenListLiveData childrenListLiveData = categoryListViewModel.getChildrenListLiveData();
+        childrenListLiveData.setShowRoot(showRoot);
+        childrenListLiveData.observe(this,categoryListObserver);
     }
 
 
     // Interface para ser implementado na atividade pai
     public interface OnCategoryListSelectListener {
-        void onCategoryListSelect(CategoryChildrenCountQuery category);
+        void onCategoryListSelect(CategoryModel category);
     }
 }

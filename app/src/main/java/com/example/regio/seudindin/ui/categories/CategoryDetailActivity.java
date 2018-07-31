@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.example.regio.seudindin.R;
 import com.example.regio.seudindin.model.CategoryModel;
+import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
+import com.example.regio.seudindin.persistence.entity.CategoryEntity;
 import com.example.regio.seudindin.ui.categories.support.CategoryIconAdapter;
 import com.example.regio.seudindin.ui.categories.support.ColorSpinnerAdapter;
 import com.example.regio.seudindin.viewmodel.CategoryViewModel;
@@ -43,10 +45,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
     @BindView(R.id.categoriesDetail_edt_name) TextView nameTextView;
     @BindView(R.id.categoriesDetail_spn_select_colors) Spinner colorSpinner;
     @BindView(R.id.category_icons_recycleview) RecyclerView iconsRecycler;
+    @BindView(R.id.categoriesDetail_colors_label) TextView iconColorTextView;
+    @BindView(R.id.categoriesDetail_recycleview_label) TextView iconSelectTextView;
 
     private static final int PICK_CATEGORY_SELECT = 999;
     public static final int INSERT = 0;
     public static final int UPDATE = 1;
+
     private int operation = INSERT;
     private int id = 0;
     private int color;
@@ -154,13 +159,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
     // Comando para salvar as informacoes da categoria
     private void actionSave() {
-        CategoryModel categoryModel = new CategoryModel();
-        categoryModel.setId(id);
-        categoryModel.setParent_id(parent_id);
-        categoryModel.setName(nameTextView.getText().toString());
-        categoryModel.setColor(color);
-        categoryModel.setIcon(categoryIconAdapter.getSelectedIcon());
-        categoryViewModel.save(categoryModel);
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setId(id);
+        categoryEntity.setParentId(parent_id);
+        categoryEntity.setName(nameTextView.getText().toString());
+        categoryEntity.setColor(color);
+        categoryEntity.setIcon(categoryIconAdapter.getSelectedIcon());
+        categoryViewModel.save(categoryEntity);
 
         Toast.makeText(getApplicationContext(), "TODO: command save", Toast.LENGTH_LONG).show();
         finish();
@@ -245,23 +250,42 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     id = categoryModel.getId();
 
                     // Atribui a categoria-pai
-                    if (categoryModel.getParent_id() == null) {
-                        parentButton.setText(R.string.categories_parent_value);
+                    if (categoryModel.getParentId() == null) {
+                        parent_id = 0;
+                        parentButton.setText(R.string.categories_parent_novalue);
                     } else {
-                        parentButton.setText(categoryModel.getParent_id().toString());
+                        parent_id = categoryModel.getParentId();
+                        parentButton.setText(categoryModel.getParentName());
                     }
-
-
-                    // Atribui a cor
-                    color = categoryModel.getColor();
-                    int index = Arrays.asList(colorsList).indexOf(color);
-                    colorSpinner.setSelection(index);
-
-                    // Atribui o icone
-                    categoryIconAdapter.setSelectedIcon(categoryModel.getIcon());
 
                     // Atribui o nome
                     nameTextView.setText(categoryModel.getName());
+
+                    if (categoryModel.isShow_icon()) {
+
+                        // Visibilidade
+                        colorSpinner.setVisibility(View.VISIBLE);
+                        iconsRecycler.setVisibility(View.VISIBLE);
+                        iconColorTextView.setVisibility(View.VISIBLE);
+                        iconSelectTextView.setVisibility(View.VISIBLE);
+
+                        // Atribui a cor
+                        color = categoryModel.getColor();
+                        int index = Arrays.asList(colorsList).indexOf(color);
+                        colorSpinner.setSelection(index);
+
+                        // Atribui o icone
+                        categoryIconAdapter.setSelectedIcon(categoryModel.getIcon());
+
+                    } else {
+
+                        // Visibilidade
+                        colorSpinner.setVisibility(View.INVISIBLE);
+                        iconsRecycler.setVisibility(View.INVISIBLE);
+                        iconColorTextView.setVisibility(View.INVISIBLE);
+                        iconSelectTextView.setVisibility(View.INVISIBLE);
+                    }
+
                 }
             }
         };

@@ -41,6 +41,7 @@
                 android:layout_weight="1"
                 android:elevation="4dp"
                 app:layout_collapseMode="pin"
+                app:title="@string/categories_detail_activity_title_insert"
                 />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -78,7 +79,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:text="@string/categories_parent_value"
+                android:text="@string/categories_parent_novalue"
                 android:layout_gravity="top"
                 app:layout_anchor="@id/categoriesDetail_appbar"
                 app:layout_anchorGravity="bottom"
@@ -111,6 +112,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <TextView
+                android:id="@+id/categoriesDetail_colors_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/categories_icon_color_label"
@@ -130,6 +132,18 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                />
+
+            <TextView
+                android:id="@+id/categoriesDetail_recycleview_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/categories_icon_selection_label"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                style="@style/InputLabel"
                 />
 
             <android.support.v7.widget.RecyclerView

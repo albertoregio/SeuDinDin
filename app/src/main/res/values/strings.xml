@@ -5,8 +5,9 @@
     <string name="categories_activity_title">Categories</string>
     <string name="categories_name_label">Category\'s Name</string>
     <string name="categories_parent_label">Parent Category</string>
-    <string name="categories_parent_value">[None]</string>
+    <string name="categories_parent_novalue">[None]</string>
     <string name="categories_icon_color_label">Icon\'s color</string>
+    <string name="categories_icon_selection_label">Select a icon o category</string>
 
     <string name="category_list_select_activity_title">Select a category</string>
 

@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.regio.seudindin.R;
-import com.example.regio.seudindin.persistence.dao.query_model.CategoryChildrenCountQuery;
+import com.example.regio.seudindin.model.CategoryModel;
+import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,10 @@ public class CategoryListSelectActivity extends AppCompatActivity implements Cat
 
     // Declaracao e alimentacao das variaveis
     private List<Integer> categoryHierarchy = new ArrayList<Integer>();
-    private CategoryListFragment categorySelectFragment;
+    private CategoryListFragment categoryFragment;
+
+    private final String STATE_HIERARCHY = "state_hierarchy";
+    private final String STATE_FRAGMENT = "state_fragment";
 
 
     // Metodo responsavel pela criacao do activity
@@ -28,30 +32,50 @@ public class CategoryListSelectActivity extends AppCompatActivity implements Cat
         setContentView(R.layout.activity_category_list_select);
         ButterKnife.bind(this);
 
-        // Controle da lista de categorias que foram selecionadas
-        categoryHierarchy.add(0);
+        if (savedInstanceState == null) {
 
-        // Configuracao do fragmento que controla a lista de categorias
-        categorySelectFragment = CategoryListFragment.newInstance(0);
+            // Controle da lista de categorias que foram selecionadas
+            categoryHierarchy.add(0);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.category_list_select_activity_fragment_content, categorySelectFragment)
-                .commit();
+            // Configuracao do fragmento que controla a lista de categorias
+            categoryFragment = CategoryListFragment.newInstance(0);
+            categoryFragment.setShowRoot(true);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.category_list_select_activity_fragment_content, categoryFragment)
+                    .commit();
+        } else {
+            categoryFragment = (CategoryListFragment) getSupportFragmentManager().getFragment(savedInstanceState, STATE_FRAGMENT);
+
+        }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        getSupportFragmentManager().putFragment(outState, STATE_FRAGMENT, categoryFragment);
+
+        outState.putIntegerArrayList(STATE_HIERARCHY, (ArrayList<Integer>) categoryHierarchy);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        categoryHierarchy = savedInstanceState.getIntegerArrayList(STATE_HIERARCHY);
+    }
 
     // Configura o evento de clique em um item da lista de categorias
     @Override
-    public void onCategoryListSelect(CategoryChildrenCountQuery category) {
+    public void onCategoryListSelect(CategoryModel category) {
 
-        if (category.getQtde() > 0) {
+        if (category.getChildrenCount() > 0) {
 
             // Adiciona um item da categoria na lista de hierarquia
             categoryHierarchy.add(category.getId());
 
             // Mostra a listagem das categorias filhas da categoria selecionada
-            categorySelectFragment.setCategory_id(category.getId());
+            categoryFragment.setCategory_id(category.getId());
         }
         // Categoria selecionada
         else {
@@ -78,7 +102,7 @@ public class CategoryListSelectActivity extends AppCompatActivity implements Cat
         }
         // Mostra a listagem das categorias de nivel anterior
         else {
-            categorySelectFragment.setCategory_id(categoryHierarchy.get(categoryHierarchy.size() -1));
+            categoryFragment.setCategory_id(categoryHierarchy.get(categoryHierarchy.size() -1));
         }
     }
 

@@ -6,9 +6,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
 import com.example.regio.seudindin.R;
-import com.example.regio.seudindin.model.CategoryModel;
+import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
+import com.example.regio.seudindin.persistence.entity.CategoryEntity;
 import com.example.regio.seudindin.persistence.dao.CategoryDAO;
-import com.example.regio.seudindin.persistence.dao.query_model.CategoryChildrenCountQuery;
 
 import java.util.List;
 
@@ -33,17 +33,17 @@ public class CategoryRepository {
 
 
     // Recupera uma categoria especifica
-    public LiveData<CategoryModel>  getCategory(int id) {
+    public LiveData<CategoryChildrenCountQuery>  getCategory(int id) {
 
-        LiveData<CategoryModel> liveData = categoryDAO.getCategory(id);
+        LiveData<CategoryChildrenCountQuery> liveData = categoryDAO.getCategory(id);
 
         if (liveData == null) {
-            CategoryModel categoryModel = new CategoryModel();
+            CategoryChildrenCountQuery categoryModel = new CategoryChildrenCountQuery();
             categoryModel.setId(0);
             categoryModel.setColor(R.color.red_200);
             categoryModel.setIcon(R.drawable.ic_category_icon_calculator);
 
-            MutableLiveData<CategoryModel> mutableLiveData = new MutableLiveData<CategoryModel>();
+            MutableLiveData<CategoryChildrenCountQuery> mutableLiveData = new MutableLiveData<CategoryChildrenCountQuery>();
             mutableLiveData.setValue(categoryModel);
 
             liveData = mutableLiveData;
@@ -54,32 +54,26 @@ public class CategoryRepository {
     }
 
 
-    // Recupera a quantidade de filhos de uma determinada categoria
-    public int getChildrenCount(int id) {
-        return categoryDAO.getChildrenCount(id);
-    }
-
-
     // Insere uma categoria
-    public void insert(CategoryModel categoryModel) {
-        new AsyncTask<CategoryModel,Void,Void>() {
+    public void insert(CategoryEntity categoryEntity) {
+        new AsyncTask<CategoryEntity,Void,Void>() {
             @Override
-            protected Void doInBackground(final CategoryModel... params) {
+            protected Void doInBackground(final CategoryEntity... params) {
                 categoryDAO.insert(params[0]);
                 return null;
             }
-        }.execute(categoryModel);
+        }.execute(categoryEntity);
     }
 
 
     // Remove uma categoria
     public void delete(int id) {
-        CategoryModel model = new CategoryModel();
+        CategoryEntity model = new CategoryEntity();
         model.setId(id);
 
-        new AsyncTask<CategoryModel,Void,Void>() {
+        new AsyncTask<CategoryEntity,Void,Void>() {
             @Override
-            protected Void doInBackground(final CategoryModel... params) {
+            protected Void doInBackground(final CategoryEntity... params) {
                 categoryDAO.delete(params[0]);
                 return null;
             }
@@ -87,8 +81,8 @@ public class CategoryRepository {
     }
 
     // Remove uma categoria
-    public void delete(CategoryModel categoryModel) {
-        delete(categoryModel.getId());
+    public void delete(CategoryEntity categoryEntity) {
+        delete(categoryEntity.getId());
     }
 
 }

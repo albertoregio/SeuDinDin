@@ -2,7 +2,7 @@
 <layout>
 
     <data>
-        <variable name="category" type="com.example.regio.seudindin.model.CategoryModel"/>
+        <variable name="category" type="com.example.regio.seudindin.persistence.entity.CategoryEntity"/>
     </data>
 
     <FrameLayout

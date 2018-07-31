@@ -6,8 +6,10 @@
     <string name="categories_activity_title">Categorias</string>
     <string name="categories_name_label">Nome da Categoria</string>
     <string name="categories_parent_label">Categoria Pai</string>
-    <string name="categories_parent_value">[Nenhum]</string>
+    <string name="categories_parent_novalue">Nenhuma</string>
     <string name="categories_icon_color_label">Cor do Ícone</string>
+    <string name="categories_icon_selection_label">Selecione um ícone para a categoria</string>
+
 
     <string name="category_list_select_activity_title">Selecione uma categoria</string>
 

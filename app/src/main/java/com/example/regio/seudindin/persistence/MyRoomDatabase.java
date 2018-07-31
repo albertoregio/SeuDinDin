@@ -1,14 +1,15 @@
 package com.example.regio.seudindin.persistence;
 
 import com.example.regio.seudindin.persistence.dao.CategoryDAO;
-import com.example.regio.seudindin.model.CategoryModel;
+import com.example.regio.seudindin.persistence.entity.CategoryEntity;
+
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 // Classe responsavel por recuperar uma instancia do database
-@Database(entities = {CategoryModel.class}, version = 1, exportSchema = false)
+@Database(entities = {CategoryEntity.class}, version = 2, exportSchema = false)
 public abstract class MyRoomDatabase extends RoomDatabase {
 
     // Declaração de variáveis
