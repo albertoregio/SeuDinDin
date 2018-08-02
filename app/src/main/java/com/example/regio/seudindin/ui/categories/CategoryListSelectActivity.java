@@ -34,7 +34,7 @@ public class CategoryListSelectActivity extends AppCompatActivity implements Cat
 
         if (savedInstanceState == null) {
 
-            // Controle da lista de categorias que foram selecionadas
+            // Lista de categorias que foram selecionadas
             categoryHierarchy.add(0);
 
             // Configuracao do fragmento que controla a lista de categorias
@@ -47,28 +47,32 @@ public class CategoryListSelectActivity extends AppCompatActivity implements Cat
                     .commit();
         } else {
             categoryFragment = (CategoryListFragment) getSupportFragmentManager().getFragment(savedInstanceState, STATE_FRAGMENT);
-
         }
     }
 
+
+    // Metodo que salva informacoes de variaveis quando a aplicacao é interrompida
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         getSupportFragmentManager().putFragment(outState, STATE_FRAGMENT, categoryFragment);
-
         outState.putIntegerArrayList(STATE_HIERARCHY, (ArrayList<Integer>) categoryHierarchy);
         super.onSaveInstanceState(outState);
     }
 
+
+    // Metodo que recupera informacoes das variaveis salvas quando a aplicacao foi interrompida
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         categoryHierarchy = savedInstanceState.getIntegerArrayList(STATE_HIERARCHY);
     }
 
+
     // Configura o evento de clique em um item da lista de categorias
     @Override
     public void onCategoryListSelect(CategoryModel category) {
 
+        // Se a categoria possuir filhos exibe a listagem com estes, caso nao possuia seleciona o item
         if (category.getChildrenCount() > 0) {
 
             // Adiciona um item da categoria na lista de hierarquia
@@ -81,11 +85,13 @@ public class CategoryListSelectActivity extends AppCompatActivity implements Cat
         else {
             Intent resultIntent = new Intent();
             resultIntent.putExtra("category_parent_id", category.getId());
+            resultIntent.putExtra("category_parent_name", category.getName());
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }
 
     }
+
 
     // Configura o evento do botão voltar
     @Override
@@ -94,7 +100,7 @@ public class CategoryListSelectActivity extends AppCompatActivity implements Cat
         // Remove um item da categoria
         categoryHierarchy.remove(categoryHierarchy.size() -1);
 
-        // A listagem ja esta mostrando as categorias raiz, entao finaliza a atividade
+        // Se a listagem já está mostrando as categorias raiz, entao finaliza a atividade
         if (categoryHierarchy.size() == 0) {
             Intent resultIntent = new Intent();
             setResult(Activity.RESULT_CANCELED, resultIntent);

@@ -20,6 +20,8 @@ public interface CategoryDAO {
     @Insert(onConflict = REPLACE)
     void insert(CategoryEntity category);
 
+    @Insert(onConflict = REPLACE)
+    void insertAll(CategoryEntity... category);
 
     @Delete
     void delete(CategoryEntity category);

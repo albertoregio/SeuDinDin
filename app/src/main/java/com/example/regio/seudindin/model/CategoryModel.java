@@ -12,13 +12,12 @@ public class CategoryModel {
     private Integer parentId;
     private String parentName;
     private int id;
-    private Integer color;
-    private Integer icon;
+    private String colorName;
+    private String iconName;
     private String name;
 
     private boolean highlighted = false;
     private boolean enabled = true;
-    private boolean show_icon = true;
     private boolean show_symbol_name = false;
     private int childrenCount = 0;
 
@@ -32,11 +31,23 @@ public class CategoryModel {
     public int getId() {
         return id;
     }
+    public String getColorName() {
+        return colorName;
+    }
     public Integer getColor() {
-        return color;
+        if (colorName != null)
+            return App.getResourceColor(colorName);
+        else
+            return null;
+    }
+    public String getIconName() {
+        return iconName;
     }
     public Integer getIcon() {
-        return icon;
+        if (iconName != null)
+            return App.getResourceDrawable(iconName);
+        else
+            return null;
     }
     public String getName() {
         return isShow_symbol_name() ? ("[ " + name + " ]") : name;
@@ -48,9 +59,8 @@ public class CategoryModel {
         return enabled;
     }
     public boolean isShow_icon() {
-        //return show_icon;
         return getParentId() == 0;
-    } + " ]"
+    }
     public boolean isShow_symbol_name() {
         return show_symbol_name;
     }
@@ -70,10 +80,22 @@ public class CategoryModel {
         this.id = id;
     }
     public void setColor(Integer color) {
-        this.color = color;
+        if (color != null)
+            this.colorName = App.getResourceName(color);
+        else
+            this.colorName = null;
+    }
+    public void setColorName(String colorName) {
+        this.colorName = colorName;
     }
     public void setIcon(Integer icon) {
-        this.icon = icon;
+        if (icon != null)
+            this.iconName = App.getResourceName(icon);
+        else
+            this.iconName = null;
+    }
+    public void setIconName(String iconName) {
+        this.iconName = iconName;
     }
     public void setName(String name) {
         this.name = name;
@@ -84,10 +106,6 @@ public class CategoryModel {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    /*
-    public void setShow_icon(boolean show_icon) {
-        this.show_icon = show_icon;
-    }*/
     public void setShow_symbol_name(boolean show_symbol_name) {
         this.show_symbol_name = show_symbol_name;
     }

@@ -1,5 +1,6 @@
 package com.example.regio.seudindin.ui.categories.support;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -77,6 +78,7 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
 
 
     // Metodo responsavel pela alimentacao dos dados da tela
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull CategoryIconHolder holder, final int position) {
 
@@ -92,9 +94,10 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
         final LayerDrawable layerDrawable = (LayerDrawable) holder.icon.getDrawable();
 
         // Cor do icone
-//        int color = ContextCompat.getColor(context, this.color);
+        int color = ContextCompat.getColor(context, this.color);
+        //int color = this.color;
         final GradientDrawable iconShapeDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.ic_category_icon_color);
-        iconShapeDrawable.setColor(this.color);
+        iconShapeDrawable.setColor(color);
 
         // Imagem do icone
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(),iconList.get(position), null);

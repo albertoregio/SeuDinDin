@@ -14,12 +14,10 @@ import android.view.ViewGroup;
 
 import com.example.regio.seudindin.R;
 import com.example.regio.seudindin.model.CategoryModel;
-import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
 import com.example.regio.seudindin.ui.categories.support.CategoryListAdapter;
 import com.example.regio.seudindin.viewmodel.CategoryChildrenListLiveData;
 import com.example.regio.seudindin.viewmodel.CategoryViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,10 +51,16 @@ public class CategoryListFragment extends Fragment {
 
     // Recupera uma nova instancia do fragmento
     public static CategoryListFragment newInstance(int category_id) {
-        CategoryListFragment fragment = new CategoryListFragment();
+
+        // Atribui parametros
         Bundle args = new Bundle();
         args.putInt("category_id", category_id);
+
+        // Cria um novo fragmento e atribui parametros
+        CategoryListFragment fragment = new CategoryListFragment();
         fragment.setArguments(args);
+
+        // Retorna o fragmento criado
         return fragment;
     }
 
@@ -82,6 +86,7 @@ public class CategoryListFragment extends Fragment {
         // Configura os observers do view model
         setupObservers();
 
+        // Retorna a view criada
         return view;
     }
 
@@ -94,7 +99,7 @@ public class CategoryListFragment extends Fragment {
     }
 
 
-    //
+    // Atribui o id da categoria que terá a listagem de filhos exibida
     public void setCategory_id(int id) {
         categoryListViewModel.setChildrenListIdInput(id);
     }
@@ -111,11 +116,6 @@ public class CategoryListFragment extends Fragment {
         }
     }
 
-    // Atribui o tipo de operacao do activity: insercao ou atualizacao
-    public void setShowRoot(boolean show) {
-        this.showRoot = show;
-    }
-
 
     // Evento de desvinculacao do fragmento a atividade
     @Override
@@ -125,12 +125,18 @@ public class CategoryListFragment extends Fragment {
     }
 
 
+    // Define se deve ser exibido a categoria [Nenhuma]
+    public void setShowRoot(boolean show) {
+        this.showRoot = show;
+    }
+
+
     // Metodo responsavel por configurar a listagem de categorias -
     private void setupRecycler() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        categoryAdapter = new CategoryListAdapter(context, new ArrayList<>(0));
-        categoryAdapter.setEditListener(categoryOnClick);
+        categoryAdapter = new CategoryListAdapter(context);
+        categoryAdapter.setOnClickListener(categoryOnClick);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         rec_listaCategories.setLayoutManager(layoutManager);
         rec_listaCategories.setAdapter(categoryAdapter);
         rec_listaCategories.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));

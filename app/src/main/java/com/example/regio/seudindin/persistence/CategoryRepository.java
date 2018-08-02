@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
+import com.example.regio.seudindin.App;
 import com.example.regio.seudindin.R;
 import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
 import com.example.regio.seudindin.persistence.entity.CategoryEntity;
@@ -40,8 +41,8 @@ public class CategoryRepository {
         if (liveData == null) {
             CategoryChildrenCountQuery categoryModel = new CategoryChildrenCountQuery();
             categoryModel.setId(0);
-            categoryModel.setColor(R.color.red_200);
-            categoryModel.setIcon(R.drawable.ic_category_icon_calculator);
+            categoryModel.setColor(App.getResourceName(R.color.red_200));
+            categoryModel.setIcon(App.getResourceName(R.drawable.ic_category_icon_calculator));
 
             MutableLiveData<CategoryChildrenCountQuery> mutableLiveData = new MutableLiveData<CategoryChildrenCountQuery>();
             mutableLiveData.setValue(categoryModel);

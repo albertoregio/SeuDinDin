@@ -1,20 +1,22 @@
 package com.example.regio.seudindin.ui.categories.support;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.regio.seudindin.App;
 import com.example.regio.seudindin.R;
 import com.example.regio.seudindin.model.CategoryModel;
-import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +26,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
 
     //Declaracao de variaveis
     private final Context mContext;
-    private List<CategoryModel> categoryList;
+    private List<CategoryModel> categoryList = new ArrayList<>(0);
     private CategoryModel selectedItem;
-    private View.OnClickListener editListener;
+    private View.OnClickListener onClickListener;
 
 
     // Construtor da classe
-    public CategoryListAdapter(Context context, ArrayList categories) {
-        this.categoryList = categories;
+    public CategoryListAdapter(Context context) {
         this.mContext = context;
     }
 
@@ -45,6 +46,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
 
 
     // Metodo responsavel pela a alimentacao dos dados da tela
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull CategoryListHolder holder, final int position) {
 
@@ -52,27 +54,31 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
 
         if (category != null) {
 
-            // Campo de texto
+            // Atribui o campo Nome
             holder.category.setText(category.getName());
 
             // Recuperando a camada
             final LayerDrawable layerDrawable = (LayerDrawable) holder.icon.getDrawable();
 
             // Cor do icone
-            //int color = ContextCompat.getColor(mContext, category.getColor());
-            int color = category.getColor();
-            final GradientDrawable gradientDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.ic_category_icon_color);
-            gradientDrawable.setColor(color);
-            gradientDrawable.setStroke(0, Color.BLACK);
+            if (category.getColor() != null) {
+                int color = ContextCompat.getColor(mContext, category.getColor());
+                //int color = category.getColor();
+                final GradientDrawable gradientDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.ic_category_icon_color);
+                gradientDrawable.setColor(color);
+                gradientDrawable.setStroke(0, R.color.default_color_stroke);
+            }
 
             // Imagem do icone
-            Drawable drawable = ResourcesCompat.getDrawable(mContext.getResources(), category.getIcon(), null);
-            layerDrawable.setDrawableByLayerId(R.id.ic_category_icon_image, drawable);
+            if (category.getIcon() != null) {
+                Drawable drawable = ResourcesCompat.getDrawable(mContext.getResources(), category.getIcon(), null);
+                layerDrawable.setDrawableByLayerId(R.id.ic_category_icon_image, drawable);
+            }
 
             // Visibilidade do icone
             holder.icon.setVisibility(category.isShow_icon() ? View.VISIBLE : View.INVISIBLE);
 
-            // Imagem da seta
+            // Visibilidade da imagem da seta
             if (category.getChildrenCount() == 0) {
                 holder.arrow.setVisibility(View.INVISIBLE);
             } else {
@@ -82,8 +88,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
             // Evento de clique
             holder.layout.setOnClickListener(v -> {
                 selectedItem = category;
-                if (editListener != null) {
-                    editListener.onClick(v);
+                if (onClickListener != null) {
+                    onClickListener.onClick(v);
                 }
             });
 
@@ -114,14 +120,14 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
 
 
     // Recupera o listener responsavel por comandos de clique contidos na classe que instancia este objeto
-    public View.OnClickListener getEditListener() {
-        return editListener;
+    public View.OnClickListener getOnClickListener() {
+        return onClickListener;
     }
 
 
     // Atribui um listener responsavel por comandos de clique contidos na classe que instancia este objeto
-    public void setEditListener(View.OnClickListener editListener) {
-        this.editListener = editListener;
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
 

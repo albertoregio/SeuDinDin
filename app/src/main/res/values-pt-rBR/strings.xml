@@ -17,12 +17,14 @@
     <string name="categories_detail_activity_title_update">Editar Categoria</string>
 
     <string name="command_save">Salvar</string>
+    <string name="command_save_successful">Categoria salva com sucesso.</string>
     <string name="command_delete">Apagar</string>
     <string name="command_cancel_title">Cancelar alterações</string>
     <string name="command_cancel_dialog">As alterações serão perdidas.\nDeseja continuar?</string>
     <string name="command_delete_title">Apagar</string>
-    <string name="command_delete_dialog">Deseja APAGAR a categoria selecionada?\n\nObs.: As transações vinculadas serão transformadas em \"Sem categoria\".
-    </string>
+    <string name="command_delete_dialog">Deseja APAGAR a categoria selecionada?\n\nObs.: As transações vinculadas serão transformadas em \"Sem categoria\".</string>
+    <string name="command_delete_successful">Categoria excluída com sucesso.</string>
+
     <string name="command_yes">Sim</string>
     <string name="command_no">Não</string>
 

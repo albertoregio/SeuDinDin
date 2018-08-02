@@ -7,6 +7,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.support.annotation.Nullable;
 
+import com.example.regio.seudindin.App;
 import com.example.regio.seudindin.model.CategoryModel;
 import com.example.regio.seudindin.persistence.CategoryRepository;
 import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
@@ -35,18 +36,20 @@ public class CategoryDetailLiveData extends MediatorLiveData<CategoryModel> {
 
     // Processa o valor do livedata
     private void processValue(CategoryChildrenCountQuery category) {
-        CategoryModel model = new CategoryModel();
-        model.setParentId(category.getParentId());
-        model.setParentName(category.getParentName());
-        model.setId(category.getId());
-        model.setName(category.getName());
-        model.setColor(category.getColor());
-        model.setIcon(category.getIcon());
-        model.setChildrenCount(category.getChildrenCount());
-        model.setShow_symbol_name(false);
-        model.setEnabled(true);
-        model.setHighlighted(false);
-        this.setValue(model);
+        if (category != null) {
+            CategoryModel model = new CategoryModel();
+            model.setParentId(category.getParentId());
+            model.setParentName(category.getParentName());
+            model.setId(category.getId());
+            model.setName(category.getName());
+            model.setColorName(category.getColor());
+            model.setIconName(category.getIcon());
+            model.setChildrenCount(category.getChildrenCount());
+            model.setShow_symbol_name(false);
+            model.setEnabled(true);
+            model.setHighlighted(false);
+            this.setValue(model);
+        }
     }
 
     // Atribui o id a ser pesquisado

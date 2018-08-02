@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.regio.seudindin.App;
 import com.example.regio.seudindin.R;
 import com.example.regio.seudindin.model.CategoryModel;
 import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
@@ -72,8 +74,11 @@ public class CategoryDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Recupera a lista de cores disponiveis
-        int[] aux = getResources().getIntArray(R.array.array_color_spinner);
-        colorsList = convertArrays(aux);
+        TypedArray array = getResources().obtainTypedArray(R.array.array_color_spinner);
+        colorsList = convertArrays(array);
+
+        //int[] aux = getResources().getIntArray(R.array.array_color_spinner);
+        //colorsList = convertArrays(aux);
 
         // Configura o toolbar
         setupToolbar();
@@ -108,7 +113,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
             case (PICK_CATEGORY_SELECT) : {
                 if (resultCode == Activity.RESULT_OK) {
                     parent_id = data.getIntExtra("category_parent_id", 0);
-                    parentButton.setText(String.valueOf(parent_id));
+                    parentButton.setText(data.getStringExtra("category_parent_name"));
                 }
                 break;
             }
@@ -163,11 +168,11 @@ public class CategoryDetailActivity extends AppCompatActivity {
         categoryEntity.setId(id);
         categoryEntity.setParentId(parent_id);
         categoryEntity.setName(nameTextView.getText().toString());
-        categoryEntity.setColor(color);
-        categoryEntity.setIcon(categoryIconAdapter.getSelectedIcon());
+        categoryEntity.setColor(App.getResourceName(color));
+        categoryEntity.setIcon(App.getResourceName(categoryIconAdapter.getSelectedIcon()));
         categoryViewModel.save(categoryEntity);
 
-        Toast.makeText(getApplicationContext(), "TODO: command save", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), R.string.command_save_successful, Toast.LENGTH_LONG).show();
         finish();
     }
 
@@ -182,7 +187,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     categoryViewModel.delete(id);
-                    Toast.makeText(getApplicationContext(), "TODO: command delete", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.command_delete_successful, Toast.LENGTH_LONG).show();
                     finish();
                 }
             })
@@ -271,7 +276,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
                         // Atribui a cor
                         color = categoryModel.getColor();
-                        int index = Arrays.asList(colorsList).indexOf(color);
+                        //int index = Arrays.asList(colorsList).indexOf(color);
+                        int index = colorSpinnerAdapter.getIndex(color);
                         colorSpinner.setSelection(index);
 
                         // Atribui o icone
@@ -304,8 +310,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                int index = adapterView.getSelectedItemPosition();
-                color = colorsList[index];
+                color = colorSpinnerAdapter.getColor(adapterView.getSelectedItemPosition());
                 categoryIconAdapter.setColor(color);
             }
 
@@ -329,7 +334,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     }
 
 
-    // Metodo auxiliar para converter umtipo de array e outro
+    // Metodo auxiliar para converter um tipo de array e outro
     private Integer[] convertArrays(int[] array) {
         Integer[] integerArray = new Integer[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -338,4 +343,11 @@ public class CategoryDetailActivity extends AppCompatActivity {
         return integerArray;
     }
 
+    private Integer[] convertArrays(TypedArray array) {
+        Integer[] integerArray = new Integer[array.length()];
+        for (int i = 0; i < array.length(); i++) {
+            integerArray[i] = array.getResourceId(i,1);
+        }
+        return integerArray;
+    }
 }

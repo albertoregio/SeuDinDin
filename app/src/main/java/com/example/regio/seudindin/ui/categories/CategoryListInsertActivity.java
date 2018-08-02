@@ -26,6 +26,7 @@ public class CategoryListInsertActivity extends AppCompatActivity implements Cat
     private final String STATE_HIERARCHY = "state_hierarchy";
     private final String STATE_FRAGMENT = "state_fragment";
 
+
     // Metodo responsavel pela criacao do activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class CategoryListInsertActivity extends AppCompatActivity implements Cat
     }
 
 
-    // Evento de armazenamento do estado da instancia quando a atividade vai ser destruida
+    // Evento de armazenamento do estado da instancia quando a atividade vai ser interrompida
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         getSupportFragmentManager().putFragment(outState, STATE_FRAGMENT, categoryFragment);
@@ -76,7 +77,6 @@ public class CategoryListInsertActivity extends AppCompatActivity implements Cat
         Intent intent = new Intent(this, CategoryDetailActivity.class);
         intent.putExtra("operation", CategoryDetailActivity.INSERT);
         startActivity(intent);
-
     }
 
 
@@ -86,7 +86,6 @@ public class CategoryListInsertActivity extends AppCompatActivity implements Cat
         intent.putExtra("operation", CategoryDetailActivity.UPDATE);
         intent.putExtra("category_id", category.getId());
         startActivity(intent);
-
     }
 
 

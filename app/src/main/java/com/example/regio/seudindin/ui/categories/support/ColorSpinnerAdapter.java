@@ -15,6 +15,7 @@ import android.widget.SpinnerAdapter;
 
 import com.example.regio.seudindin.R;
 
+import java.util.Arrays;
 import java.util.List;
 
 // Classe responsavel por controlar as cores disponiveis para selecao no componente spinner
@@ -24,18 +25,29 @@ public class ColorSpinnerAdapter extends ArrayAdapter<Integer> implements Spinne
     private final LayoutInflater mInflater;
     private final Context mContext;
     private final int mResource;
-    private final List<Integer> mObjects;
+    private final List<Integer> colorList;
 
 
     // Construtor da classe
     public ColorSpinnerAdapter(Context context, int resource, List objects) {
         super(context,resource, 0, objects);
         this.mContext = context;
-        this.mObjects = objects;
+        this.colorList = objects;
         this.mResource = resource;
         this.mInflater = LayoutInflater.from(context);
     }
 
+
+    // Recupera a cor de acordo com o indice
+    public int getColor(int index) {
+        return colorList.get(index);
+    }
+
+
+    // Recupera o indice de acordo com a cor
+    public int getIndex(int color) {
+        return colorList.indexOf(color);
+    }
 
     // Metodo responsavel pela exibicao do item selecionado no spinner
     @NonNull
@@ -57,8 +69,8 @@ public class ColorSpinnerAdapter extends ArrayAdapter<Integer> implements Spinne
     private View createItemView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         // Recupera a cor a ser exibida no shape
-        //int color = ContextCompat.getColor(mContext, mObjects.get(position));
-        int color = mObjects.get(position);
+        int color = ContextCompat.getColor(mContext, colorList.get(position));
+        //int color = colorList.get(position);
 
         // Atribui a cor ao objeto shape
         final View view = mInflater.inflate(mResource, parent, false);
@@ -70,4 +82,15 @@ public class ColorSpinnerAdapter extends ArrayAdapter<Integer> implements Spinne
         return view;
 
     }
+
+
+    // Metodo auxiliar para converter um tipo de array e outro
+    private Integer[] convertArrays(int[] array) {
+        Integer[] integerArray = new Integer[array.length];
+        for (int i = 0; i < array.length; i++) {
+            integerArray[i] = array[i];
+        }
+        return integerArray;
+    }
+
 }

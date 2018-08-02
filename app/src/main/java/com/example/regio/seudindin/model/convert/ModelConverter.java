@@ -1,5 +1,6 @@
 package com.example.regio.seudindin.model.convert;
 
+import com.example.regio.seudindin.App;
 import com.example.regio.seudindin.model.CategoryModel;
 import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
 
@@ -14,8 +15,8 @@ public class ModelConverter {
         model.setParentId(children.getParentId());
         model.setId(children.getId());
         model.setName(children.getName());
-        model.setColor(children.getColor());
-        model.setIcon(children.getIcon());
+        model.setColorName(children.getColor());
+        model.setIconName(children.getIcon());
         model.setChildrenCount(children.getChildrenCount());
         return model;
     }

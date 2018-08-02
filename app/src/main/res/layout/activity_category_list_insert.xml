@@ -9,8 +9,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_categories_insert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="end|bottom"
         android:src="@drawable/ic_action_plus"
         android:layout_marginRight="@dimen/fab_magin_right"
