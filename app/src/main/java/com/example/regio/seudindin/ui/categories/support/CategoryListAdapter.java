@@ -76,7 +76,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
             }
 
             // Visibilidade do icone
-            holder.icon.setVisibility(category.isShow_icon() ? View.VISIBLE : View.INVISIBLE);
+            holder.icon.setVisibility(category.isShowIcon() ? View.VISIBLE : View.INVISIBLE);
 
             // Visibilidade da imagem da seta
             if (category.getChildrenCount() == 0) {

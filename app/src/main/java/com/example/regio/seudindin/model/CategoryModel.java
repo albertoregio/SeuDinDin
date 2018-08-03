@@ -23,7 +23,10 @@ public class CategoryModel {
 
     // Metodos GET
     public Integer getParentId() {
-        return parentId;
+        if (parentId != null)
+            return parentId;
+        else
+            return 0;
     }
     public String getParentName() {
         return getParentId() == 0 ? App.getContext().getString(R.string.categories_parent_novalue) : parentName;
@@ -58,7 +61,7 @@ public class CategoryModel {
     public boolean isEnabled() {
         return enabled;
     }
-    public boolean isShow_icon() {
+    public boolean isShowIcon() {
         return getParentId() == 0;
     }
     public boolean isShow_symbol_name() {

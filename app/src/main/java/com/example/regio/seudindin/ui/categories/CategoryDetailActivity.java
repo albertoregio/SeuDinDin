@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -24,8 +25,8 @@ import android.widget.Toast;
 
 import com.example.regio.seudindin.App;
 import com.example.regio.seudindin.R;
+import com.example.regio.seudindin.databinding.ActivityCategoryDetailBinding;
 import com.example.regio.seudindin.model.CategoryModel;
-import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQuery;
 import com.example.regio.seudindin.persistence.entity.CategoryEntity;
 import com.example.regio.seudindin.ui.categories.support.CategoryIconAdapter;
 import com.example.regio.seudindin.ui.categories.support.ColorSpinnerAdapter;
@@ -63,6 +64,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     private ColorSpinnerAdapter colorSpinnerAdapter;
     private Integer[] colorsList;
     private CategoryViewModel categoryViewModel;
+    private CategoryModel categoryModelVar;
 
 
     // Metodo responsavel pela criacao do activity
@@ -255,6 +257,10 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     id = categoryModel.getId();
 
                     // Atribui a categoria-pai
+                    parent_id = categoryModel.getParentId();
+                    parentButton.setText(categoryModel.getParentName());
+
+                    /*
                     if (categoryModel.getParentId() == null) {
                         parent_id = 0;
                         parentButton.setText(R.string.categories_parent_novalue);
@@ -262,11 +268,12 @@ public class CategoryDetailActivity extends AppCompatActivity {
                         parent_id = categoryModel.getParentId();
                         parentButton.setText(categoryModel.getParentName());
                     }
+                    */
 
                     // Atribui o nome
                     nameTextView.setText(categoryModel.getName());
 
-                    if (categoryModel.isShow_icon()) {
+                    if (categoryModel.isShowIcon()) {
 
                         // Visibilidade
                         colorSpinner.setVisibility(View.VISIBLE);
