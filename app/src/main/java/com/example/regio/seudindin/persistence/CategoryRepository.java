@@ -11,7 +11,9 @@ import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQu
 import com.example.regio.seudindin.persistence.entity.CategoryEntity;
 import com.example.regio.seudindin.persistence.dao.CategoryDAO;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 // Classe responsavel por recuperar as classes DAO
 public class CategoryRepository {
@@ -55,6 +57,41 @@ public class CategoryRepository {
     }
 
 
+    // Recupera um vetor com os Ids da hierarquia de parentes
+
+    public List<Integer> getParentIdArray(int id) {
+        List<Integer> list = null;
+
+        try {
+            list = new AsyncTask<Integer, Void, List<Integer>>() {
+                @Override
+                protected List<Integer> doInBackground(Integer... params) {
+                    List<Integer> list = new ArrayList<>();
+                    int id = categoryDAO.getParentId(params[0]);
+
+                    while (id != 0) {
+                        list.add(0, id);
+                        id = categoryDAO.getParentId(id);
+                    }
+
+                    return list;
+                }
+
+
+                @Override
+                protected void onPostExecute(List<Integer> integers) {
+                    super.onPostExecute(integers);
+                }
+
+            }.execute(id).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return list;
+
+    }
+
+
     // Insere uma categoria
     public void insert(CategoryEntity categoryEntity) {
         new AsyncTask<CategoryEntity,Void,Void>() {
@@ -85,5 +122,6 @@ public class CategoryRepository {
     public void delete(CategoryEntity categoryEntity) {
         delete(categoryEntity.getId());
     }
+
 
 }

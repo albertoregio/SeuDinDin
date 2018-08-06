@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/ic_category_icon_color" android:drawable="@drawable/shape_circle"/>
-    <item android:id="@+id/ic_category_icon_image" android:drawable="@drawable/ic_category_icon_restaurant"/>
+    <item android:id="@+id/ic_category_icon_color" android:drawable="@drawable/shape_circle"
+        android:top="2dp" android:left="2dp" android:right="2dp" android:bottom="2dp"/>
+    <item android:id="@+id/ic_category_icon_image" android:drawable="@drawable/ic_category_icon_restaurant"
+        android:top="3dp" android:left="3dp" android:right="3dp" android:bottom="3dp"/>
 </layer-list>

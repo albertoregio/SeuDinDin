@@ -5,6 +5,14 @@
     android:layout_height="30dp"
     >
 
+    <View
+        android:id="@+id/color_picker_rectangle_shape"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_color_spinner"
+        android:visibility="invisible"
+        />
+
     <ImageView
         android:id="@+id/color_picker_circle_shape"
         android:layout_width="20dp"
@@ -23,5 +31,7 @@
         android:layout_toEndOf="@+id/color_picker_circle_shape"
         android:layout_centerVertical="true"
         />
+
+
 
 </RelativeLayout>

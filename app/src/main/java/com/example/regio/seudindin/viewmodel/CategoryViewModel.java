@@ -12,6 +12,8 @@ import com.example.regio.seudindin.persistence.dao.query.CategoryChildrenCountQu
 import com.example.regio.seudindin.persistence.entity.CategoryEntity;
 import com.example.regio.seudindin.persistence.CategoryRepository;
 
+import java.util.List;
+
 // Classe responsavel pela comunicacao entre a ui e os dados do negocio
 public class CategoryViewModel extends AndroidViewModel {
 
@@ -73,5 +75,8 @@ public class CategoryViewModel extends AndroidViewModel {
         childrenListLiveData.setId(id);
     }
 
+    public List<Integer> getParentIdList(int id) {
+        return repository.getParentIdArray(id);
+    }
 
 }

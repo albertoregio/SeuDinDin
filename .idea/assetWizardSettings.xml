@@ -19,8 +19,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Área de Trabalho/icons/house.png" />
-                                      <entry key="outputName" value="ic_category_house" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Área de Trabalho/icons/vazio.png" />
+                                      <entry key="outputName" value="ic_category_icon_empty" />
                                     </map>
                                   </option>
                                 </PersistentState>

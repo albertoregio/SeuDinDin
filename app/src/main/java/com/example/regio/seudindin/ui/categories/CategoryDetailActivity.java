@@ -6,9 +6,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.example.regio.seudindin.App;
 import com.example.regio.seudindin.R;
-import com.example.regio.seudindin.databinding.ActivityCategoryDetailBinding;
 import com.example.regio.seudindin.model.CategoryModel;
 import com.example.regio.seudindin.persistence.entity.CategoryEntity;
 import com.example.regio.seudindin.ui.categories.support.CategoryIconAdapter;
@@ -50,6 +49,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
     @BindView(R.id.category_icons_recycleview) RecyclerView iconsRecycler;
     @BindView(R.id.categoriesDetail_colors_label) TextView iconColorTextView;
     @BindView(R.id.categoriesDetail_recycleview_label) TextView iconSelectTextView;
+    @BindView(R.id.categoriesDetail_spn_line_separator) View lineSeparatorView;
+    @BindView(R.id.categoriesDetail_inputLayout_name) TextInputLayout nameInputLayout;
 
     private static final int PICK_CATEGORY_SELECT = 999;
     public static final int INSERT = 0;
@@ -59,12 +60,12 @@ public class CategoryDetailActivity extends AppCompatActivity {
     private int id = 0;
     private int color;
     private int parent_id;
+    private int childrenCount = 0;
 
     private CategoryIconAdapter categoryIconAdapter;
     private ColorSpinnerAdapter colorSpinnerAdapter;
     private Integer[] colorsList;
     private CategoryViewModel categoryViewModel;
-    private CategoryModel categoryModelVar;
 
 
     // Metodo responsavel pela criacao do activity
@@ -99,28 +100,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
     }
 
-
-    // Configura o botao de selecao da categoria-pai
-    @OnClick(R.id.categoriesDetail_btn_select_categories)
-    public void selectCategoryParent() {
-        Intent intent = new Intent(this, CategoryListSelectActivity.class);
-        //intent.putExtra("category_parent_id", 0);
-        startActivityForResult(intent,PICK_CATEGORY_SELECT);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case (PICK_CATEGORY_SELECT) : {
-                if (resultCode == Activity.RESULT_OK) {
-                    parent_id = data.getIntExtra("category_parent_id", 0);
-                    parentButton.setText(data.getStringExtra("category_parent_name"));
-                }
-                break;
-            }
-        }
-    }
 
     // Configura o menu da toolbar
     @Override
@@ -166,35 +145,49 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
     // Comando para salvar as informacoes da categoria
     private void actionSave() {
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setId(id);
-        categoryEntity.setParentId(parent_id);
-        categoryEntity.setName(nameTextView.getText().toString());
-        categoryEntity.setColor(App.getResourceName(color));
-        categoryEntity.setIcon(App.getResourceName(categoryIconAdapter.getSelectedIcon()));
-        categoryViewModel.save(categoryEntity);
+        if (!nameTextView.getText().toString().equals("")) {
+            CategoryEntity categoryEntity = new CategoryEntity();
+            categoryEntity.setId(id);
+            categoryEntity.setParentId(parent_id);
+            categoryEntity.setName(nameTextView.getText().toString());
+            categoryEntity.setColor(App.getResourceName(color));
+            categoryEntity.setIcon(App.getResourceName(categoryIconAdapter.getSelectedIcon()));
+            categoryViewModel.save(categoryEntity);
 
-        Toast.makeText(getApplicationContext(), R.string.command_save_successful, Toast.LENGTH_LONG).show();
-        finish();
+            Toast.makeText(getApplicationContext(), R.string.command_save_successful, Toast.LENGTH_LONG).show();
+            finish();
+        } else {
+            nameInputLayout.setError(getString(R.string.command_save_unsuccessful));
+        }
     }
 
 
     // Comando para excluir uma categoria
     private void actionDelete() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(CategoryDetailActivity.this);
-        alert
-            .setTitle(R.string.command_delete_title)
-            .setMessage(R.string.command_delete_dialog)
-            .setPositiveButton(R.string.command_yes, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    categoryViewModel.delete(id);
-                    Toast.makeText(getApplicationContext(), R.string.command_delete_successful, Toast.LENGTH_LONG).show();
-                    finish();
-                }
-            })
-            .setNegativeButton(R.string.command_no, null)
-            .show();
+        if (childrenCount == 0) {
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(CategoryDetailActivity.this);
+            alert
+                    .setTitle(R.string.command_delete_title)
+                    .setMessage(R.string.command_delete_dialog)
+                    .setPositiveButton(R.string.command_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                                categoryViewModel.delete(id);
+                                Toast.makeText(getApplicationContext(), R.string.command_delete_successful, Toast.LENGTH_LONG).show();
+                                finish();
+                        }
+                    })
+                    .setNegativeButton(R.string.command_no, null)
+                    .show();
+        } else {
+            AlertDialog.Builder unsuccessful = new AlertDialog.Builder(CategoryDetailActivity.this);
+            unsuccessful
+                    .setTitle(R.string.command_delete_title)
+                    .setMessage(R.string.command_delete_unsuccessful)
+                    .setPositiveButton(R.string.command_ok,null)
+                    .show();
+        }
 
     }
 
@@ -217,10 +210,43 @@ public class CategoryDetailActivity extends AppCompatActivity {
     }
 
 
+    // Comando para selecionar uma categoria-pai
+    @OnClick(R.id.categoriesDetail_btn_select_categories)
+    public void actionSelectCategoryParent() {
+        Intent intent = new Intent(this, CategoryListSelectActivity.class);
+        intent.putExtra("category_parent_id", parent_id);
+        intent.putExtra("category_id", id);
+        startActivityForResult(intent,PICK_CATEGORY_SELECT);
+    }
+
+
+    // Recupera a categoria-pai selecionada e atualiza os campos da tela
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (PICK_CATEGORY_SELECT) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    parent_id = data.getIntExtra("category_parent_id", 0);
+                    parentButton.setText(data.getStringExtra("category_parent_name"));
+                }
+                break;
+            }
+        }
+    }
+
+
     // Atribui o tipo de operacao do activity: insercao ou atualizacao
     private void setActivityOperation() {
         this.operation = getIntent().getIntExtra("operation",INSERT);
         id = getIntent().getIntExtra("category_id", 0);
+        parent_id = getIntent().getIntExtra("category_parent_id", 0);
+
+        String parent_name = getIntent().getStringExtra("category_parent_name");
+        if (parent_name == null) {
+            parent_name = App.getContext().getString(R.string.categories_parent_novalue);
+        }
+        parentButton.setText(parent_name);
 
         switch (operation) {
             case INSERT:
@@ -259,16 +285,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     // Atribui a categoria-pai
                     parent_id = categoryModel.getParentId();
                     parentButton.setText(categoryModel.getParentName());
-
-                    /*
-                    if (categoryModel.getParentId() == null) {
-                        parent_id = 0;
-                        parentButton.setText(R.string.categories_parent_novalue);
-                    } else {
-                        parent_id = categoryModel.getParentId();
-                        parentButton.setText(categoryModel.getParentName());
-                    }
-                    */
+                    childrenCount = categoryModel.getChildrenCount();
 
                     // Atribui o nome
                     nameTextView.setText(categoryModel.getName());
@@ -280,6 +297,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                         iconsRecycler.setVisibility(View.VISIBLE);
                         iconColorTextView.setVisibility(View.VISIBLE);
                         iconSelectTextView.setVisibility(View.VISIBLE);
+                        lineSeparatorView.setVisibility(View.VISIBLE);
 
                         // Atribui a cor
                         color = categoryModel.getColor();
@@ -297,6 +315,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                         iconsRecycler.setVisibility(View.INVISIBLE);
                         iconColorTextView.setVisibility(View.INVISIBLE);
                         iconSelectTextView.setVisibility(View.INVISIBLE);
+                        lineSeparatorView.setVisibility(View.INVISIBLE);
                     }
 
                 }
@@ -313,11 +332,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
     // Metodo responsavel por configurar a lista de cores disponiveis
     private void setupColorSelector() {
         colorSpinnerAdapter = new ColorSpinnerAdapter(this, R.layout.spinner_color_picker, Arrays.asList(colorsList));
+        colorSpinnerAdapter.setSelectedItem(1);
         colorSpinner.setAdapter(colorSpinnerAdapter);
         colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 color = colorSpinnerAdapter.getColor(adapterView.getSelectedItemPosition());
+                colorSpinnerAdapter.setSelectedItem(adapterView.getSelectedItemPosition());
                 categoryIconAdapter.setColor(color);
             }
 
@@ -334,7 +355,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this,3,GridLayoutManager.HORIZONTAL,false);
 
         categoryIconAdapter = new CategoryIconAdapter(this, new ArrayList<Integer>(0));
-        categoryIconAdapter.setSelectedIcon(R.drawable.ic_category_icon_calculator);
+        categoryIconAdapter.setSelectedIcon(R.drawable.ic_category_icon_empty);
 
         iconsRecycler.setAdapter(categoryIconAdapter);
         iconsRecycler.setLayoutManager(layoutManager);
@@ -342,14 +363,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
 
     // Metodo auxiliar para converter um tipo de array e outro
-    private Integer[] convertArrays(int[] array) {
-        Integer[] integerArray = new Integer[array.length];
-        for (int i = 0; i < array.length; i++) {
-            integerArray[i] = array[i];
-        }
-        return integerArray;
-    }
-
     private Integer[] convertArrays(TypedArray array) {
         Integer[] integerArray = new Integer[array.length()];
         for (int i = 0; i < array.length(); i++) {

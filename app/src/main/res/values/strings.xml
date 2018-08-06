@@ -5,7 +5,7 @@
     <string name="categories_activity_title">Categories</string>
     <string name="categories_name_label">Category\'s Name</string>
     <string name="categories_parent_label">Parent Category</string>
-    <string name="categories_parent_novalue">[None]</string>
+    <string name="categories_parent_novalue">None</string>
     <string name="categories_icon_color_label">Icon\'s color</string>
     <string name="categories_icon_selection_label">Select a icon o category</string>
 
@@ -16,17 +16,17 @@
 
     <string name="command_save">Save</string>
     <string name="command_save_successful">Category successful saved.</string>
+    <string name="command_save_unsuccessful">The field \'Category\'s Name\' must have a value.</string>
     <string name="command_delete">Delete</string>
     <string name="command_cancel_title">Confirmation</string>
     <string name="command_cancel_dialog">All changes will be lost.\nDo you want to continue?</string>
     <string name="command_delete_title">Delete</string>
     <string name="command_delete_dialog">Do you want DELETE this category?\n\nObs.: The linked transactions will be changed to \"No category\".</string>
     <string name="command_delete_successful">Category successful deleted.</string>
+    <string name="command_delete_unsuccessful">The operation cannot be do it because the category have children.</string>
 
+    <string name="command_ok">Ok</string>
     <string name="command_yes">Yes</string>
     <string name="command_no">No</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

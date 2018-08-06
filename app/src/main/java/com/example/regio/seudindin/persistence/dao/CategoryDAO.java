@@ -45,5 +45,8 @@ public interface CategoryDAO {
             "order by cat.name asc")
     LiveData<List<CategoryChildrenCountQuery>> getCategoryChildrenList(Integer id);
 
+    @Query("select parentId from category where id = :id")
+    int getParentId(int id);
+
 
 }

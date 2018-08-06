@@ -20,11 +20,13 @@ public class CategoryChildrenListLiveData extends MediatorLiveData<List<Category
     private CategoryChildrenCountQuery parent;
     private List<CategoryChildrenCountQuery> children;
     private List<CategoryModel> returnValue;
+    private List<Integer> parentIdListHighlight =  new ArrayList<>();
     private CategoryRepository repository;
     private boolean showRoot = false;
     private boolean parentFinished = false;
     private boolean childrenFinished = false;
     private int id = 0;
+    private int selectId = 0;
 
     // listagem de categorias filhas
     private MutableLiveData<Integer> childrenIdInput = new MutableLiveData<Integer>();
@@ -34,8 +36,6 @@ public class CategoryChildrenListLiveData extends MediatorLiveData<List<Category
     // detalhe de uma categoria
     private MutableLiveData<Integer> parentIdInput = new MutableLiveData<Integer>();
     private LiveData<CategoryChildrenCountQuery> parentCategory = Transformations.switchMap(parentIdInput, (id) -> repository.getCategory(id));
-
-
 
     // Construtor da classe
     public CategoryChildrenListLiveData(CategoryRepository repository) {
@@ -67,7 +67,10 @@ public class CategoryChildrenListLiveData extends MediatorLiveData<List<Category
             // Inclui dados do root
             if (showRoot) {
                 if (id == 0) {
-                    returnValue.add(CategoryModel.getRoot());
+                    CategoryModel category = CategoryModel.getRoot();
+
+                    category.setHighlighted(parentIdListHighlight.size() == 0);
+                    returnValue.add(category);
                 }
             }
 
@@ -76,12 +79,33 @@ public class CategoryChildrenListLiveData extends MediatorLiveData<List<Category
                 CategoryModel category = ModelConverter.categoryChildrenToModel(parent);
                 category.setChildrenCount(0);
                 category.setShow_symbol_name(true);
+                if (parentIdListHighlight.size() > 0)
+                    category.setHighlighted(parentIdListHighlight.get(parentIdListHighlight.size()-1) == Integer.valueOf(category.getId()));
+                else
+                    category.setHighlighted(false);
                 returnValue.add(category);
             }
 
             // Inclui dados das categorias filhas
             if (children != null) {
-                returnValue.addAll(ModelConverter.listCategoryChildrenToModel(children));
+
+                List<CategoryModel> categoryModelList = ModelConverter.listCategoryChildrenToModel(children);
+
+                    Iterator itr = categoryModelList.iterator();
+                    while (itr.hasNext()) {
+                        CategoryModel model = (CategoryModel) itr.next();
+                        if (parentIdListHighlight.size() > 0) {
+                            model.setHighlighted(parentIdListHighlight.contains(Integer.valueOf(model.getId())));
+                            if(repository.getParentIdArray(model.getId()).contains(Integer.valueOf(selectId)) || model.getId() == Integer.valueOf(selectId))
+                                model.setEnabled(false);
+                            else
+                                model.setEnabled(true);
+                        } else {
+                            model.setEnabled(model.getId() != Integer.valueOf(selectId));
+                        }
+                    }
+
+                returnValue.addAll(categoryModelList);
             }
 
             // Atribui valor do livedata
@@ -120,5 +144,16 @@ public class CategoryChildrenListLiveData extends MediatorLiveData<List<Category
 
         parent = null;
         children = null;
+    }
+
+    public int getSelectId() {
+        return selectId;
+    }
+
+    public void setSelectId(int selectId) {
+        this.selectId = selectId;
+        parentIdListHighlight = repository.getParentIdArray(selectId);
+
+
     }
 }

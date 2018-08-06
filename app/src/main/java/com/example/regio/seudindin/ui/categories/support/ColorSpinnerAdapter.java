@@ -26,6 +26,7 @@ public class ColorSpinnerAdapter extends ArrayAdapter<Integer> implements Spinne
     private final Context mContext;
     private final int mResource;
     private final List<Integer> colorList;
+    private int selectedItem;
 
 
     // Construtor da classe
@@ -48,6 +49,19 @@ public class ColorSpinnerAdapter extends ArrayAdapter<Integer> implements Spinne
     public int getIndex(int color) {
         return colorList.indexOf(color);
     }
+
+
+    // Recupera o item selecionado
+    public int getSelectedItem() {
+        return selectedItem;
+    }
+
+
+    // Atribui o item selecionado
+    public void setSelectedItem(int selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+
 
     // Metodo responsavel pela exibicao do item selecionado no spinner
     @NonNull
@@ -78,6 +92,14 @@ public class ColorSpinnerAdapter extends ArrayAdapter<Integer> implements Spinne
         final GradientDrawable shapeDrawable = (GradientDrawable) colorPicker.getDrawable();
         shapeDrawable.setStroke(0, Color.BLACK);
         shapeDrawable.setColor(color);
+
+        // Exibe borda de selecao do item
+        final View rectangle = view.findViewById(R.id.color_picker_rectangle_shape);
+        if (position == selectedItem) {
+            rectangle.setVisibility(View.VISIBLE);
+        } else {
+            rectangle.setVisibility(View.INVISIBLE);
+        }
 
         return view;
 

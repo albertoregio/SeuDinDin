@@ -9,7 +9,7 @@ import com.example.regio.seudindin.R;
 public class CategoryModel {
 
     // Declaracao de variaveis
-    private Integer parentId;
+    private Integer parentId = 0;
     private String parentName;
     private int id;
     private String colorName;
@@ -125,8 +125,9 @@ public class CategoryModel {
         model.setId(0);
         model.setName(App.getContext().getString(R.string.categories_parent_novalue));
         model.setColor(R.color.default_color_spinner);
-        model.setIcon(R.drawable.ic_category_icon_calculator);
+        model.setIcon(R.drawable.ic_category_icon_empty);
         model.setShow_symbol_name(true);
+        model.setHighlighted(false);
         return  model;
     }
 

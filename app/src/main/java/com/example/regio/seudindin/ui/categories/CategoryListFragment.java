@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +36,19 @@ public class CategoryListFragment extends Fragment {
     @BindView(R.id.categories_recycleview) RecyclerView rec_listaCategories;
 
     private boolean showRoot = false;
+    private int selectedId = 0;
+
+
+    // Recupera uma nova instancia do fragmento
+    public static CategoryListFragment newInstance(Bundle args ) {
+
+        // Cria um novo fragmento e atribui parametros
+        CategoryListFragment fragment = new CategoryListFragment();
+        fragment.setArguments(args);
+
+        // Retorna o fragmento criado
+        return fragment;
+    }
 
 
     // Construtor da classe
@@ -46,22 +61,7 @@ public class CategoryListFragment extends Fragment {
                 onCategorySelect(categoryAdapter.getSelectedItem());
             }
         };*/
-    }
 
-
-    // Recupera uma nova instancia do fragmento
-    public static CategoryListFragment newInstance(int category_id) {
-
-        // Atribui parametros
-        Bundle args = new Bundle();
-        args.putInt("category_id", category_id);
-
-        // Cria um novo fragmento e atribui parametros
-        CategoryListFragment fragment = new CategoryListFragment();
-        fragment.setArguments(args);
-
-        // Retorna o fragmento criado
-        return fragment;
     }
 
 
@@ -93,7 +93,7 @@ public class CategoryListFragment extends Fragment {
 
     // Metodo responsavel por avisar ao activity que um item foi selecionado
     public void onCategorySelect(CategoryModel category) {
-        if (mListener != null) {
+        if (mListener != null && category.isEnabled()) {
             mListener.onCategoryListSelect(category);
         }
     }
@@ -102,6 +102,18 @@ public class CategoryListFragment extends Fragment {
     // Atribui o id da categoria que terá a listagem de filhos exibida
     public void setCategory_id(int id) {
         categoryListViewModel.setChildrenListIdInput(id);
+    }
+
+
+    // Define se deve ser exibido a categoria [Nenhuma]
+    public void setShowRoot(boolean show) {
+        this.showRoot = show;
+    }
+
+
+    //
+    public List<Integer> getParentIdList(int id) {
+        return categoryListViewModel.getParentIdList(id);
     }
 
 
@@ -125,12 +137,6 @@ public class CategoryListFragment extends Fragment {
     }
 
 
-    // Define se deve ser exibido a categoria [Nenhuma]
-    public void setShowRoot(boolean show) {
-        this.showRoot = show;
-    }
-
-
     // Metodo responsavel por configurar a listagem de categorias -
     private void setupRecycler() {
         categoryAdapter = new CategoryListAdapter(context);
@@ -148,10 +154,16 @@ public class CategoryListFragment extends Fragment {
     private void setupObservers() {
         final Observer<List<CategoryModel>> categoryListObserver = categoryModelList -> categoryAdapter.setCategoryList(categoryModelList);
 
+        int parentId = this.getArguments().getInt("parent_id", 0);
+        int selectedId = this.getArguments().getInt("selected_id", 0);
+
         //Recupera o viewModel e atribui os observers
         categoryListViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        categoryListViewModel.setChildrenListIdInput(parentId);
+
         CategoryChildrenListLiveData childrenListLiveData = categoryListViewModel.getChildrenListLiveData();
         childrenListLiveData.setShowRoot(showRoot);
+        childrenListLiveData.setSelectId(selectedId);
         childrenListLiveData.observe(this,categoryListObserver);
     }
 
@@ -159,5 +171,14 @@ public class CategoryListFragment extends Fragment {
     // Interface para ser implementado na atividade pai
     public interface OnCategoryListSelectListener {
         void onCategoryListSelect(CategoryModel category);
+    }
+
+
+    public int getSelectedId() {
+        return selectedId;
+    }
+
+    public void setSelectedId(int selectedId) {
+        this.selectedId = selectedId;
     }
 }

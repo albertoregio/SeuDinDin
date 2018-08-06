@@ -23,8 +23,8 @@
     <color name="orange_200">#FFCC80</color>
     <color name="deep_orange_200">#FFAB91</color>
     <color name="brown_200">#BCAAA4</color>
-    <color name="gray_200">#EEEEEE</color>
     <color name="blue_gray_200">#B0BEC5</color>
+    <color name="gray_200">#EEEEEE</color>
 
     <color name="default_color_spinner">@color/gray_200</color>
     <color name="default_color_stroke">@android:color/black</color>

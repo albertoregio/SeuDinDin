@@ -57,6 +57,21 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
             // Atribui o campo Nome
             holder.category.setText(category.getName());
 
+            // Exibe texto destacado se for o caso
+            if (category.isHighlighted()) {
+                holder.category.setTextAppearance(R.style.SelectedCategoryListText);
+            } else {
+                holder.category.setTextAppearance(R.style.CategoryListText);
+            }
+
+            if (category.isEnabled()) {
+                holder.category.setEnabled(true);
+            } else {
+                holder.category.setEnabled(false);
+                holder.category.setTextAppearance(R.style.DisabledCategoryListText);
+                holder.layout.setClickable(false);
+            }
+
             // Recuperando a camada
             final LayerDrawable layerDrawable = (LayerDrawable) holder.icon.getDrawable();
 

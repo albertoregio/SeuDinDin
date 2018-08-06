@@ -18,13 +18,17 @@
 
     <string name="command_save">Salvar</string>
     <string name="command_save_successful">Categoria salva com sucesso.</string>
+    <string name="command_save_unsuccessful">O campo \'Nome da Categoria\' necessita ter um valor.</string>
     <string name="command_delete">Apagar</string>
     <string name="command_cancel_title">Cancelar alterações</string>
     <string name="command_cancel_dialog">As alterações serão perdidas.\nDeseja continuar?</string>
     <string name="command_delete_title">Apagar</string>
     <string name="command_delete_dialog">Deseja APAGAR a categoria selecionada?\n\nObs.: As transações vinculadas serão transformadas em \"Sem categoria\".</string>
     <string name="command_delete_successful">Categoria excluída com sucesso.</string>
+    <string name="command_delete_unsuccessful">A operação não pode ser realizada porque a categoria possui subcategorias.</string>
 
+
+    <string name="command_ok">Ok</string>
     <string name="command_yes">Sim</string>
     <string name="command_no">Não</string>
 
