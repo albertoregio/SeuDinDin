@@ -1,0 +1,129 @@
+insert into category(id,parentId,color,icon,name) values(1,0,"red_200","ic_category_icon_restaurant","Alimentação");
+insert into category(id,parentId,color,icon,name) values(2,0,"pink_200","ic_category_icon_pet","Animal de estimação");
+insert into category(id,parentId,color,icon,name) values(3,0,"purple_200","ic_category_icon_house","Casa");
+insert into category(id,parentId,color,icon,name) values(4,0,"deep_purple_200","ic_category_icon_pencil","Educação");
+insert into category(id,parentId,color,icon,name) values(5,0,"indigo_200","ic_category_icon_clothes","Gastos com filhos");
+insert into category(id,parentId,color,icon,name) values(6,0,"blue_200","ic_category_icon_wallet","Gastos esporádicos");
+insert into category(id,parentId,color,icon,name) values(7,0,"light_blue_200","ic_category_icon_scissors","Gastos pessoais");
+insert into category(id,parentId,color,icon,name) values(8,0,"cyan_200","ic_category_icon_arrows","Impostos");
+insert into category(id,parentId,color,icon,name) values(9,0,"teal_200","ic_category_icon_tickets","Lazer");
+insert into category(id,parentId,color,icon,name) values(10,0,"green_200","ic_category_icon_paper","Outros gastos");
+insert into category(id,parentId,color,icon,name) values(11,0,"light_green_200","ic_category_icon_money_bag","Receita");
+insert into category(id,parentId,color,icon,name) values(12,0,"lime_200","ic_category_icon_medicine","Saúde");
+insert into category(id,parentId,color,icon,name) values(13,0,"yellow_200","ic_category_icon_bars","Seguros");
+insert into category(id,parentId,color,icon,name) values(14,0,"amber_200","ic_category_icon_calculator","Serviços financeiros");
+insert into category(id,parentId,color,icon,name) values(15,0,"orange_200","ic_category_icon_car_key","Transporte");
+
+insert into category(id,parentId,color,icon,name) values(16,1,"red_200","ic_category_icon_restaurant","Almoço");
+insert into category(id,parentId,color,icon,name) values(17,1,"red_200","ic_category_icon_restaurant","Açougue");
+insert into category(id,parentId,color,icon,name) values(18,1,"red_200","ic_category_icon_restaurant","Café/Lanches");
+insert into category(id,parentId,color,icon,name) values(19,1,"red_200","ic_category_icon_restaurant","Feira");
+insert into category(id,parentId,color,icon,name) values(20,1,"red_200","ic_category_icon_restaurant","Guloseimas");
+insert into category(id,parentId,color,icon,name) values(21,1,"red_200","ic_category_icon_restaurant","Padaria");
+insert into category(id,parentId,color,icon,name) values(22,1,"red_200","ic_category_icon_restaurant","Restaurante");
+insert into category(id,parentId,color,icon,name) values(23,1,"red_200","ic_category_icon_restaurant","Supermercado");
+
+insert into category(id,parentId,color,icon,name) values(24,2,"pink_200","ic_category_icon_pet","Pet shop");
+insert into category(id,parentId,color,icon,name) values(25,2,"pink_200","ic_category_icon_pet","Ração");
+insert into category(id,parentId,color,icon,name) values(26,2,"pink_200","ic_category_icon_pet","Remédio - pet");
+insert into category(id,parentId,color,icon,name) values(27,2,"pink_200","ic_category_icon_pet","Veterinário");
+
+insert into category(id,parentId,color,icon,name) values(28,3,"purple_200","ic_category_icon_house","Aluguel");
+insert into category(id,parentId,color,icon,name) values(29,3,"purple_200","ic_category_icon_house","Condomínio");
+insert into category(id,parentId,color,icon,name) values(30,3,"purple_200","ic_category_icon_house","Empregada doméstica");
+insert into category(id,parentId,color,icon,name) values(31,3,"purple_200","ic_category_icon_house","Gás");
+insert into category(id,parentId,color,icon,name) values(32,3,"purple_200","ic_category_icon_house","Internet");
+insert into category(id,parentId,color,icon,name) values(33,3,"purple_200","ic_category_icon_house","Lavanderia");
+insert into category(id,parentId,color,icon,name) values(34,3,"purple_200","ic_category_icon_house","Luz");
+insert into category(id,parentId,color,icon,name) values(35,3,"purple_200","ic_category_icon_house","Manutenção da casa");
+insert into category(id,parentId,color,icon,name) values(36,3,"purple_200","ic_category_icon_house","Materiais de limpeza");
+insert into category(id,parentId,color,icon,name) values(37,3,"purple_200","ic_category_icon_house","Telefone fixo");
+insert into category(id,parentId,color,icon,name) values(38,3,"purple_200","ic_category_icon_house","TV por assinatura");
+insert into category(id,parentId,color,icon,name) values(39,3,"purple_200","ic_category_icon_house","Água");
+
+insert into category(id,parentId,color,icon,name) values(40,4,"deep_purple_200","ic_category_icon_pencil","Cursos");
+insert into category(id,parentId,color,icon,name) values(41,4,"deep_purple_200","ic_category_icon_pencil","Escola");
+insert into category(id,parentId,color,icon,name) values(42,4,"deep_purple_200","ic_category_icon_pencil","Faculdade");
+insert into category(id,parentId,color,icon,name) values(43,4,"deep_purple_200","ic_category_icon_pencil","Livraria");
+insert into category(id,parentId,color,icon,name) values(44,4,"deep_purple_200","ic_category_icon_pencil","Material escolar");
+insert into category(id,parentId,color,icon,name) values(45,4,"deep_purple_200","ic_category_icon_pencil","Pós-graduação");
+
+insert into category(id,parentId,color,icon,name) values(46,5,"indigo_200","ic_category_icon_clothes","Alimentação");
+insert into category(id,parentId,color,icon,name) values(47,5,"indigo_200","ic_category_icon_clothes","Festa de aniversário");
+insert into category(id,parentId,color,icon,name) values(48,5,"indigo_200","ic_category_icon_clothes","Medicamentos");
+insert into category(id,parentId,color,icon,name) values(49,5,"indigo_200","ic_category_icon_clothes","Roupas e calçados");
+insert into category(id,parentId,color,icon,name) values(50,5,"indigo_200","ic_category_icon_clothes","Vacinação");
+
+insert into category(id,parentId,color,icon,name) values(51,6,"blue_200","ic_category_icon_wallet","Doações");
+insert into category(id,parentId,color,icon,name) values(52,6,"blue_200","ic_category_icon_wallet","Eletrônicos");
+insert into category(id,parentId,color,icon,name) values(53,6,"blue_200","ic_category_icon_wallet","Móveis e decoração");
+insert into category(id,parentId,color,icon,name) values(54,6,"blue_200","ic_category_icon_wallet","Presentes");
+insert into category(id,parentId,color,icon,name) values(55,6,"blue_200","ic_category_icon_wallet","Utensílios domésticos");
+
+
+insert into category(id,parentId,color,icon,name) values(56,7,"light_blue_200","ic_category_icon_scissors","Academia");
+insert into category(id,parentId,color,icon,name) values(57,7,"light_blue_200","ic_category_icon_scissors","Acessórios");
+insert into category(id,parentId,color,icon,name) values(58,7,"light_blue_200","ic_category_icon_scissors","Celular");
+insert into category(id,parentId,color,icon,name) values(59,7,"light_blue_200","ic_category_icon_scissors","Dízimo");
+insert into category(id,parentId,color,icon,name) values(60,7,"light_blue_200","ic_category_icon_scissors","Mensalidades de internet");
+insert into category(id,parentId,color,icon,name) values(61,7,"light_blue_200","ic_category_icon_scissors","Perfumaria");
+insert into category(id,parentId,color,icon,name) values(62,7,"light_blue_200","ic_category_icon_scissors","Roupas e calçados");
+insert into category(id,parentId,color,icon,name) values(63,7,"light_blue_200","ic_category_icon_scissors","Salão de beleza");
+
+insert into category(id,parentId,color,icon,name) values(64,8,"cyan_200","ic_category_icon_arrows","FGTS");
+insert into category(id,parentId,color,icon,name) values(65,8,"cyan_200","ic_category_icon_arrows","INSS");
+insert into category(id,parentId,color,icon,name) values(66,8,"cyan_200","ic_category_icon_arrows","IOF");
+insert into category(id,parentId,color,icon,name) values(67,8,"cyan_200","ic_category_icon_arrows","IPTU");
+insert into category(id,parentId,color,icon,name) values(68,8,"cyan_200","ic_category_icon_arrows","IPVA");
+insert into category(id,parentId,color,icon,name) values(69,8,"cyan_200","ic_category_icon_arrows","IR");
+
+insert into category(id,parentId,color,icon,name) values(70,9,"teal_200","ic_category_icon_tickets","Bar/Balada");
+insert into category(id,parentId,color,icon,name) values(71,9,"teal_200","ic_category_icon_tickets","Cinema/Teatro/Show");
+insert into category(id,parentId,color,icon,name) values(72,9,"teal_200","ic_category_icon_tickets","Clube - mensalidade");
+insert into category(id,parentId,color,icon,name) values(73,9,"teal_200","ic_category_icon_tickets","Diárias de hotel");
+insert into category(id,parentId,color,icon,name) values(74,9,"teal_200","ic_category_icon_tickets","Futebol");
+insert into category(id,parentId,color,icon,name) values(75,9,"teal_200","ic_category_icon_tickets","Outros esportes");
+insert into category(id,parentId,color,icon,name) values(76,9,"teal_200","ic_category_icon_tickets","Passeios");
+insert into category(id,parentId,color,icon,name) values(77,9,"teal_200","ic_category_icon_tickets","Viagens");
+
+insert into category(id,parentId,color,icon,name) values(78,11,"light_green_200","ic_category_icon_money_bag","Salário");
+insert into category(id,parentId,color,icon,name) values(79,11,"light_green_200","ic_category_icon_money_bag","Comissão");
+insert into category(id,parentId,color,icon,name) values(80,11,"light_green_200","ic_category_icon_money_bag","Bônus");
+insert into category(id,parentId,color,icon,name) values(81,11,"light_green_200","ic_category_icon_money_bag","Estorno");
+insert into category(id,parentId,color,icon,name) values(82,11,"light_green_200","ic_category_icon_money_bag","Férias");
+insert into category(id,parentId,color,icon,name) values(83,11,"light_green_200","ic_category_icon_money_bag","Honorários");
+insert into category(id,parentId,color,icon,name) values(84,11,"light_green_200","ic_category_icon_money_bag","Investimentos");
+insert into category(id,parentId,color,icon,name) values(85,11,"light_green_200","ic_category_icon_money_bag","Juros de investimentos");
+insert into category(id,parentId,color,icon,name) values(86,11,"light_green_200","ic_category_icon_money_bag","Outras receitas");
+insert into category(id,parentId,color,icon,name) values(87,11,"light_green_200","ic_category_icon_money_bag","Reembolso");
+insert into category(id,parentId,color,icon,name) values(88,11,"light_green_200","ic_category_icon_money_bag","13o salário");
+
+insert into category(id,parentId,color,icon,name) values(89,12,"lime_200","ic_category_icon_medicine","Dentista");
+insert into category(id,parentId,color,icon,name) values(90,12,"lime_200","ic_category_icon_medicine","Exames");
+insert into category(id,parentId,color,icon,name) values(91,12,"lime_200","ic_category_icon_medicine","Farmácia");
+insert into category(id,parentId,color,icon,name) values(92,12,"lime_200","ic_category_icon_medicine","Médico");
+insert into category(id,parentId,color,icon,name) values(93,12,"lime_200","ic_category_icon_medicine","Plano de saúde");
+insert into category(id,parentId,color,icon,name) values(94,12,"lime_200","ic_category_icon_medicine","Vacinas");
+
+insert into category(id,parentId,color,icon,name) values(95,13,"yellow_200","ic_category_icon_bars","Seguro de vida");
+insert into category(id,parentId,color,icon,name) values(96,13,"yellow_200","ic_category_icon_bars","Seguro do carro");
+insert into category(id,parentId,color,icon,name) values(97,13,"yellow_200","ic_category_icon_bars","Seguro residencial");
+
+insert into category(id,parentId,color,icon,name) values(98,14,"amber_200","ic_category_icon_calculator","Anuidade do cartão");
+insert into category(id,parentId,color,icon,name) values(99,14,"amber_200","ic_category_icon_calculator","Consórcio");
+insert into category(id,parentId,color,icon,name) values(100,14,"amber_200","ic_category_icon_calculator","Juros de empréstimo");
+insert into category(id,parentId,color,icon,name) values(101,14,"amber_200","ic_category_icon_calculator","Multas");
+insert into category(id,parentId,color,icon,name) values(102,14,"amber_200","ic_category_icon_calculator","Seguro do cartão de crédito");
+insert into category(id,parentId,color,icon,name) values(103,14,"amber_200","ic_category_icon_calculator","Tarifas bancárias");
+insert into category(id,parentId,color,icon,name) values(104,14,"amber_200","ic_category_icon_calculator","Título de capitalização");
+
+insert into category(id,parentId,color,icon,name) values(105,100,"amber_200","ic_category_icon_calculator","Juros do cheque especial");
+
+insert into category(id,parentId,color,icon,name) values(106,15,"orange_200","ic_category_icon_car_key","Combustível");
+insert into category(id,parentId,color,icon,name) values(107,15,"orange_200","ic_category_icon_car_key","Estacionamento");
+insert into category(id,parentId,color,icon,name) values(108,15,"orange_200","ic_category_icon_car_key","Lavagem do carro");
+insert into category(id,parentId,color,icon,name) values(109,15,"orange_200","ic_category_icon_car_key","Manutenção do carro");
+insert into category(id,parentId,color,icon,name) values(110,15,"orange_200","ic_category_icon_car_key","Metrô/Ônibus");
+insert into category(id,parentId,color,icon,name) values(111,15,"orange_200","ic_category_icon_car_key","Multas de trânsito");
+insert into category(id,parentId,color,icon,name) values(112,15,"orange_200","ic_category_icon_car_key","Pedágio");
+insert into category(id,parentId,color,icon,name) values(113,15,"orange_200","ic_category_icon_car_key","Táxi/Uber");

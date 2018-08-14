@@ -25,6 +25,7 @@
         <item>@drawable/ic_category_icon_wallet</item>
     </array>
 
+    <!--
     <array name="array_color_spinner">
         <item>@color/red_200</item>
         <item>@color/pink_200</item>
@@ -45,5 +46,6 @@
         <item>@color/brown_200</item>
         <item>@color/blue_gray_200</item>
     </array>
+    -->
 
 </resources>

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-
-    <data>
-        <variable name="category" type="com.example.regio.seudindin.persistence.entity.CategoryEntity"/>
-    </data>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.categories.CategoryListFragment">
+        tools:context="br.com.arsolutions.seudindin.ui.categories.CategoryListFragment">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/categories_recycleview"
@@ -24,8 +23,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/category_list_layout" />
+            tools:listitem="@layout/layout_category_list" />
 
     </FrameLayout>
 
-</layout>
+</android.support.design.widget.CoordinatorLayout>

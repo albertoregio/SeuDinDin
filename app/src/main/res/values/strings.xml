@@ -1,32 +1,55 @@
 <resources>
     <string name="app_name">YourMoney</string>
+
+    <!-- Main -->
     <string name="show_categories">Show Categories</string>
+    <string name="show_accounts">Show Accounts</string>
 
-    <string name="categories_activity_title">Categories</string>
-    <string name="categories_name_label">Category\'s Name</string>
-    <string name="categories_parent_label">Parent Category</string>
-    <string name="categories_parent_novalue">None</string>
-    <string name="categories_icon_color_label">Icon\'s color</string>
-    <string name="categories_icon_selection_label">Select a icon o category</string>
+    <!-- Categories -->
+    <string name="category_name_label">Category\'s Name</string>
+    <string name="category_parent_label">Parent Category</string>
+    <string name="category_parent_novalue">None</string>
+    <string name="category_icon_color_label">Icon\'s color</string>
+    <string name="category_icon_selection_label">Select a icon o category</string>
 
-    <string name="category_list_select_activity_title">Select a category</string>
+    <string name="category_list_title_edit">Categories</string>
+    <string name="category_list_title_select">Select a category</string>
 
-    <string name="categories_detail_activity_title_insert">New category</string>
-    <string name="categories_detail_activity_title_update">Edit Category</string>
+    <string name="category_detail_title_insert">New category</string>
+    <string name="category_detail_title_edit">Edit Category</string>
 
+    <string name="category_command_delete_dialog">Do you want DELETE this category?\n\nObs.: The linked transactions will be changed to \"No category\".</string>
+    <string name="category_command_delete_unsuccessful">The operation cannot be do it because the category have children.</string>
+
+    <!-- Account -->
+    <string name="account_list_title">Accounts</string>
+    <string name="account_detail_title_insert">New account</string>
+    <string name="account_detail_title_edit">Edit account</string>
+
+    <string name="account_name_label">Account\'s Name</string>
+    <string name="account_opening_balance_label">Opening Balance</string>
+    <string name="account_icon_initials_label">Icon\'s Initials</string>
+    <string name="account_icon_color_label">Icon\'s color</string>
+    <string name="account_account_enabled_label">Account enabled</string>
+
+
+    <!-- Commands -->
     <string name="command_save">Save</string>
-    <string name="command_save_successful">Category successful saved.</string>
-    <string name="command_save_unsuccessful">The field \'Category\'s Name\' must have a value.</string>
+    <string name="command_save_successful">Registry successfully saved.</string>
+    <string name="command_save_unsuccessful">The field \'%1$s\' must have a value.</string>
     <string name="command_delete">Delete</string>
+    <string name="command_delete_dialog">Do you really want DELETE this registry?</string>
     <string name="command_cancel_title">Confirmation</string>
     <string name="command_cancel_dialog">All changes will be lost.\nDo you want to continue?</string>
     <string name="command_delete_title">Delete</string>
-    <string name="command_delete_dialog">Do you want DELETE this category?\n\nObs.: The linked transactions will be changed to \"No category\".</string>
-    <string name="command_delete_successful">Category successful deleted.</string>
-    <string name="command_delete_unsuccessful">The operation cannot be do it because the category have children.</string>
+    <string name="command_delete_successful">Registry successfully deleted.</string>
 
     <string name="command_ok">Ok</string>
     <string name="command_yes">Yes</string>
     <string name="command_no">No</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_account_detail">AccountDetailActivity</string>
 
 </resources>

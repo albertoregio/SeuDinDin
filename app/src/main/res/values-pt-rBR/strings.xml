@@ -1,31 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SeuDinDin</string>
+
+    <!-- Main -->
     <string name="show_categories">Mostrar Categorias</string>
+    <string name="show_accounts">Mostrar Contas</string>
 
-    <string name="categories_activity_title">Categorias</string>
-    <string name="categories_name_label">Nome da Categoria</string>
-    <string name="categories_parent_label">Categoria Pai</string>
-    <string name="categories_parent_novalue">Nenhuma</string>
-    <string name="categories_icon_color_label">Cor do Ícone</string>
-    <string name="categories_icon_selection_label">Selecione um ícone para a categoria</string>
+    <!-- Categories -->
+    <string name="category_list_title_edit">Categorias</string>
+    <string name="category_name_label">Nome da Categoria</string>
+    <string name="category_parent_label">Categoria Pai</string>
+    <string name="category_parent_novalue">Nenhuma</string>
+    <string name="category_icon_color_label">Cor do Ícone</string>
+    <string name="category_icon_selection_label">Selecione um ícone para a categoria</string>
+
+    <string name="category_list_title_select">Selecione uma categoria</string>
+
+    <string name="category_detail_title_insert">Nova categoria</string>
+    <string name="category_detail_title_edit">Editar Categoria</string>
+
+    <string name="category_command_delete_dialog">Deseja APAGAR a categoria selecionada?\n\nObs.: As transações vinculadas serão transformadas em \"Sem categoria\".</string>
+    <string name="category_command_delete_unsuccessful">A operação não pode ser realizada porque a categoria possui subcategorias.</string>
 
 
-    <string name="category_list_select_activity_title">Selecione uma categoria</string>
+    <!-- Account -->
+    <string name="account_list_title">Contas</string>
+    <string name="account_detail_title_insert">Nova conta</string>
+    <string name="account_detail_title_edit">Editar Conta</string>
 
-    <string name="categories_detail_activity_title_insert">Nova categoria</string>
-    <string name="categories_detail_activity_title_update">Editar Categoria</string>
+    <string name="account_name_label">Nome da conta</string>
+    <string name="account_opening_balance_label">Valor inicial</string>
+    <string name="account_icon_initials_label">Letras do ícone</string>
+    <string name="account_icon_color_label">Cor do Ícone</string>
+    <string name="account_account_enabled_label">Conta ativa</string>
 
+
+    <!-- Commands -->
     <string name="command_save">Salvar</string>
-    <string name="command_save_successful">Categoria salva com sucesso.</string>
-    <string name="command_save_unsuccessful">O campo \'Nome da Categoria\' necessita ter um valor.</string>
+    <string name="command_save_successful">Registro salvo com sucesso.</string>
+    <string name="command_save_unsuccessful">O campo \'%1$s\' necessita ter um valor.</string>
     <string name="command_delete">Apagar</string>
+    <string name="command_delete_dialog">Deseja realmente APAGAR o registro selecionado?".</string>
     <string name="command_cancel_title">Cancelar alterações</string>
     <string name="command_cancel_dialog">As alterações serão perdidas.\nDeseja continuar?</string>
     <string name="command_delete_title">Apagar</string>
-    <string name="command_delete_dialog">Deseja APAGAR a categoria selecionada?\n\nObs.: As transações vinculadas serão transformadas em \"Sem categoria\".</string>
-    <string name="command_delete_successful">Categoria excluída com sucesso.</string>
-    <string name="command_delete_unsuccessful">A operação não pode ser realizada porque a categoria possui subcategorias.</string>
+    <string name="command_delete_successful">Registro excluído com sucesso.</string>
 
 
     <string name="command_ok">Ok</string>

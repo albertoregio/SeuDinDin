@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme.NoActionBar"
-    tools:context=".ui.categories.CategoryListInsertActivity">
+    tools:context="br.com.arsolutions.seudindin.ui.categories.CategoryListInsertActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/categories_list_insert_appbar"
@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:elevation="4dp"
             app:layout_collapseMode="pin"
-            app:title="@string/categories_activity_title"
+            app:title="@string/category_list_title_edit"
             />
 
     </android.support.design.widget.AppBarLayout>

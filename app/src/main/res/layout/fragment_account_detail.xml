@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme.NoActionBar"
+    >
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="br.com.arsolutions.seudindin.ui.accounts.AccountDetailFragment">
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            >
+
+            <!-- NAME -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/account_detail_input_layout_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/ErrorText"
+                >
+
+                <EditText
+                    android:id="@+id/account_detail_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:hint="@string/account_name_label"
+                    android:inputType="textCapSentences"
+                    android:layout_gravity="bottom"
+                    android:imeOptions="actionDone"
+                    android:text="@={account.name}"
+                    app:layout_anchor="@id/account_detail_appbar"
+                    app:layout_anchorGravity="bottom"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- OPENING BALANCE -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/account_detail_input_layout_opening_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/ErrorText"
+                >
+
+                <com.blackcat.currencyedittext.CurrencyEditText
+                    android:id="@+id/account_detail_opening_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:hint="@string/account_opening_balance_label"
+                    android:inputType="numberDecimal"
+                    android:layout_gravity="bottom"
+                    android:imeOptions="actionDone"
+                    android:text="@={account.name}"
+                    app:layout_anchor="@id/account_detail_name"
+                    app:layout_anchorGravity="bottom"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/account_icon_image_info"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/layer_account_icon" />
+
+
+            <!-- INITIALS -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/account_detail_input_layout_initials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/ErrorText"
+                >
+
+                <EditText
+                    android:id="@+id/account_detail_initials"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:hint="@string/account_icon_initials_label"
+                    android:inputType="textCapSentences"
+                    android:layout_gravity="bottom"
+                    android:imeOptions="actionDone"
+                    android:text="@={account.initials}"
+                    app:layout_anchor="@id/account_detail_initials"
+                    app:layout_anchorGravity="bottom"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <!-- COLOR -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/account_icon_color_label"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_anchor="@id/account_detail_initials"
+                app:layout_anchorGravity="bottom"
+                style="@style/InputLabel"
+                />
+
+            <br.com.arsolutions.components.ColorSpinner
+                android:id="@+id/account_detail_spn_select_colors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                />
+
+
+            <!-- ENABLED -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/account_account_enabled_label"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_anchor="@id/account_detail_spn_select_colors"
+                app:layout_anchorGravity="bottom"
+                style="@style/InputLabel"
+                />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/account_detail_enabled_yes">
+
+                <RadioButton
+                    android:id="@+id/account_detail_enabled_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/command_yes"
+                    android:orientation="horizontal"
+                    />
+
+                <RadioButton
+                    android:id="@+id/account_detail_enabled_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/command_no"
+                    />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
