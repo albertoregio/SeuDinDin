@@ -12,20 +12,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.regio.seudindin.R;
 import br.com.arsolutions.seudindin.viewmodel.categories.model.CategoryModel;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // Classe responsavel por controlar os itens que serao exibidas na tela
-public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder> {
+public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryListHolder> {
 
     //Declaracao de variaveis
     private final Context mContext;
     private List<CategoryModel> categoryList = new ArrayList<>(0);
     private CategoryModel selectedItem;
+    private int selectedIndex;
     private View.OnClickListener onClickListener;
 
 
@@ -101,6 +107,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
             // Evento de clique
             holder.layout.setOnClickListener(v -> {
                 selectedItem = category;
+                selectedIndex = position;
                 if (onClickListener != null) {
                     onClickListener.onClick(v);
                 }
@@ -132,6 +139,28 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
     }
 
 
+    // Recupera o indice da categoria selecionada
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
+
+    // Recupera o indice de uma categoria pelo id
+    public int getIndexById(int id) {
+        int i = 0;
+        boolean found = false;
+
+        for (; i < categoryList.size(); i++) {
+            if (categoryList.get(i).getId() == id) {
+                found = true;
+                break;
+            }
+        }
+
+        return found ? i : 0;
+    }
+
+
     // Recupera o listener responsavel por comandos de clique contidos na classe que instancia este objeto
     public View.OnClickListener getOnClickListener() {
         return onClickListener;
@@ -143,5 +172,21 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListHolder
         this.onClickListener = onClickListener;
     }
 
+    // ****************************************************************
+    // Classe interna que representa a tela de informacoes da categoria
+    class CategoryListHolder extends RecyclerView.ViewHolder {
 
+        // Declaracao e alimentacao das variaveis
+        @BindView(R.id.category_list_image) ImageView icon;
+        @BindView(R.id.category_list_name) TextView category;
+        @BindView(R.id.categories_list_arrow_info) ImageView arrow;
+        @BindView(R.id.categories_list_layout) RelativeLayout layout;
+
+
+        // Construtor da classe
+        public CategoryListHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+        }
+    }
 }

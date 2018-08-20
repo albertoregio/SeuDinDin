@@ -43,8 +43,8 @@ public class CategoryViewModel extends AndroidViewModel {
 
 
     // Remove uma determinada categoria
-    public void delete(CategoryEntity categoryEntity) {
-        repository.delete(categoryEntity);
+    public void delete(CategoryModel category) {
+        repository.delete(ModelConverter.categoryModelToEntity(category));
     }
 
 
@@ -73,7 +73,9 @@ public class CategoryViewModel extends AndroidViewModel {
     }
 
     public List<CategoryModel> getParentIdList(int id) {
-        return ModelConverter.listCategoryChildrenToModel(repository.getParentIdArray(id));
+        List<CategoryModel> list = ModelConverter.listCategoryChildrenToModel(repository.getParentIdArray(id));
+        list.add(0,CategoryModel.getRoot());
+        return list;
     }
 
 }

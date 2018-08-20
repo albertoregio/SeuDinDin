@@ -4,7 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,24 +19,44 @@ import br.com.arsolutions.seudindin.ui.categories.support.CategoryListAdapter;
 import br.com.arsolutions.seudindin.viewmodel.categories.CategoryChildrenListLiveData;
 import br.com.arsolutions.seudindin.viewmodel.categories.CategoryViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 // Classe responsavel por implementar um fragmento que exibe a lista de categorias cadastradas
 public class CategoryListFragment extends Fragment {
 
     // Declaracao de variaveis
+    @BindView(R.id.categories_recycleview) RecyclerView recycler;
+    @BindView(R.id.fab_category_insert) FloatingActionButton insertFab;
+
+    private Context context;
     private OnCategoryListSelectListener mListener;
     private CategoryListAdapter categoryAdapter;
-    private View.OnClickListener categoryOnClick;
     private CategoryViewModel categoryListViewModel;
-    private Context context;
-    @BindView(R.id.categories_recycleview) RecyclerView rec_listaCategories;
 
+    private final String STATE_PARENT = "state_parent";
+    private final String STATE_SELECTED = "state_selected";
+    private final String STATE_SHOW_INSERT = "state_show_insert_fab";
     private final String STATE_SHOW_ROOT = "state_show_root";
+    private final String STATE_CURRENT_ITEM = "state_current_item";
+    private final String STATE_NAVIGATION_ARRAY = "state_navigation_array";
 
-    private boolean showRoot = false;
+    public static final String EXTRA_PARENT = "extra_parent";
+    public static final String EXTRA_SELECTED = "extra_selected";
+    public static final String EXTRA_SHOW_INSERT = "extra_show_insert";
+    public static final String EXTRA_SHOW_ROOT = "extra_show_root";
+
+    private CategoryModel parent = new CategoryModel();
+    private CategoryModel selected = new CategoryModel();
+    private List<CategoryModel> navigationArray = new ArrayList<>();
+
+    private boolean show_insert = true;
+    private boolean show_root = false;
+    private int lastParentId = 0;
 
 
     // Recupera uma nova instancia do fragmento
@@ -53,15 +73,8 @@ public class CategoryListFragment extends Fragment {
 
     // Construtor da classe
     public CategoryListFragment() {
-        categoryOnClick = view -> onCategorySelect(categoryAdapter.getSelectedItem());
-        /*
-        categoryOnClick = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCategorySelect(categoryAdapter.getSelectedItem());
-            }
-        };*/
-
+        // Required empty public constructor
+        navigationArray.add(CategoryModel.getRoot());
     }
 
 
@@ -76,18 +89,20 @@ public class CategoryListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_list, container, false);
-        //ButterKnife.bind(view);
-        rec_listaCategories = view.findViewById(R.id.categories_recycleview);
+        ButterKnife.bind(this, view);
         context = view.getContext();
+
+        // Configura os parametros passados
+        setupParameters();
 
         // Configura informações do estado
         setupState(savedInstanceState);
 
-        // Configura o componente reclyclerview para a listagens das categorias
-        setupRecycler();
+        // Configura os componentes da tela
+        setupUi();
 
-        // Configura os observers do view model
-        setupObservers();
+        // Configura os observers do view parent
+        setupViewModel();
 
         // Retorna a view criada
         return view;
@@ -97,34 +112,13 @@ public class CategoryListFragment extends Fragment {
     // Evento de armazenamento do estado da instancia quando a atividade vai ser interrompida
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean(STATE_SHOW_ROOT, showRoot);
+        outState.putParcelable(STATE_PARENT, parent);
+        outState.putParcelable(STATE_SELECTED, selected);
+        outState.putBoolean(STATE_SHOW_INSERT, show_insert);
+        outState.putBoolean(STATE_SHOW_ROOT, show_root);
+        outState.putInt(STATE_CURRENT_ITEM, lastParentId);
+        outState.putParcelableArrayList(STATE_NAVIGATION_ARRAY, (ArrayList<CategoryModel>) navigationArray);
         super.onSaveInstanceState(outState);
-    }
-
-
-    // Metodo responsavel por avisar ao activity que um item foi selecionado
-    public void onCategorySelect(CategoryModel category) {
-        if (mListener != null && category.isEnabled()) {
-            mListener.onCategoryListSelect(category);
-        }
-    }
-
-
-    // Atribui o id da categoria que terá a listagem de filhos exibida
-    public void setCategory_id(int id) {
-        categoryListViewModel.setChildrenListIdInput(id);
-    }
-
-
-    // Define se deve ser exibido a categoria [Nenhuma]
-    public void setShowRoot(boolean show) {
-        this.showRoot = show;
-    }
-
-
-    //
-    public List<CategoryModel> getParentIdList(int id) {
-        return categoryListViewModel.getParentIdList(id);
     }
 
 
@@ -148,52 +142,178 @@ public class CategoryListFragment extends Fragment {
     }
 
 
-    // Metodo responsavel por configurar a listagem de categorias -
-    private void setupRecycler() {
-        categoryAdapter = new CategoryListAdapter(context);
-        categoryAdapter.setOnClickListener(categoryOnClick);
+    // Configura os parametros passados
+    private void setupParameters() {
+        show_insert = this.getArguments().getBoolean(EXTRA_SHOW_INSERT, true);
+        show_root = this.getArguments().getBoolean(EXTRA_SHOW_ROOT, false);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        rec_listaCategories.setLayoutManager(layoutManager);
-        rec_listaCategories.setAdapter(categoryAdapter);
-        rec_listaCategories.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+        CategoryModel pParent = this.getArguments().getParcelable(EXTRA_PARENT);
+        if (pParent != null)
+            parent = pParent;
 
-    }
-
-
-    // Metodo responsavel por configurar os observers do view model
-    private void setupObservers() {
-        final Observer<List<CategoryModel>> categoryListObserver = categoryModelList -> categoryAdapter.setCategoryList(categoryModelList);
-
-        int parentId = this.getArguments().getInt("parent_id", 0);
-        int selectedId = this.getArguments().getInt("selected_id", 0);
-
-        //Recupera o viewModel e atribui os observers
-        categoryListViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-        categoryListViewModel.setChildrenListIdInput(parentId);
-
-        CategoryChildrenListLiveData childrenListLiveData = categoryListViewModel.getChildrenListLiveData();
-        childrenListLiveData.setShowRoot(showRoot);
-        childrenListLiveData.setSelectId(selectedId);
-        childrenListLiveData.setSelectParentId(parentId);
-        childrenListLiveData.observe(this,categoryListObserver);
+        CategoryModel pSelected = this.getArguments().getParcelable(EXTRA_SELECTED);
+        if (pSelected != null)
+            selected = pSelected;
     }
 
 
     // Configura informações do estado
     private void setupState(Bundle savedInstanceState) {
-
-        if (savedInstanceState == null) {
-
-        } else {
-            showRoot = savedInstanceState.getBoolean(STATE_SHOW_ROOT);
+        if (savedInstanceState != null) {
+            parent = savedInstanceState.getParcelable(STATE_PARENT);
+            selected = savedInstanceState.getParcelable(STATE_SELECTED);
+            show_insert =  savedInstanceState.getBoolean(STATE_SHOW_INSERT);
+            show_root = savedInstanceState.getBoolean(STATE_SHOW_ROOT);
+            lastParentId = savedInstanceState.getInt(STATE_CURRENT_ITEM);
+            navigationArray = savedInstanceState.getParcelableArrayList(STATE_NAVIGATION_ARRAY);
         }
+    }
+
+
+    // Metodo responsavel por configurar os componentes da tela
+    private void setupUi() {
+
+        // Configura o componente reclyclerview para a listagens das categorias
+        setupRecycler();
+
+        // Configura a visibilidade do botão de inserção
+        if (is_show_insert())
+            insertFab.setVisibility(View.VISIBLE);
+        else
+            insertFab.setVisibility(View.INVISIBLE);
+
+    }
+
+
+    // Metodo responsavel por configurar a listagem de categorias -
+    private void setupRecycler() {
+        categoryAdapter = new CategoryListAdapter(context);
+
+        // Metodo responsavel por avisar ao activity que um item foi selecionado
+        categoryAdapter.setOnClickListener(v -> {
+            selectCategory();
+        });
+
+        // Configura o recycler
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        recycler.setLayoutManager(layoutManager);
+        recycler.setAdapter(categoryAdapter);
+        recycler.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+
+        int position = categoryAdapter.getIndexById(lastParentId);
+        ((LinearLayoutManager) recycler.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+    }
+
+
+    // Metodo responsavel por configurar os observers do view parent
+    private void setupViewModel() {
+        final Observer<List<CategoryModel>> categoryListObserver = categoryModelList -> {
+            categoryAdapter.setCategoryList(categoryModelList);
+            int position = categoryAdapter.getIndexById(lastParentId);
+            ((LinearLayoutManager) recycler.getLayoutManager()).scrollToPositionWithOffset(position,0);
+        };
+
+        //Recupera o viewModel e atribui os observers
+        categoryListViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        categoryListViewModel.setChildrenListIdInput(parent.getId());
+
+        CategoryChildrenListLiveData childrenListLiveData = categoryListViewModel.getChildrenListLiveData();
+        childrenListLiveData.setShowRoot(show_root);
+        if (show_root) {
+            childrenListLiveData.setSelectId(selected.getId());
+            childrenListLiveData.setSelectParentId(selected.getParentId());
+        }
+        childrenListLiveData.observe(this,categoryListObserver);
+
+        // Atualiza os arrays de navegação
+        updateNavigationArrays();
+
+    }
+
+
+    // Metodo responsavel pelo clique do botao da inclusao de uma nova categoria
+    @OnClick(R.id.fab_category_insert)
+    public void insertCategory() {
+        CategoryModel category = new CategoryModel();
+        category.setParentId(parent.getId());
+        category.setParentName(parent.getName());
+        mListener.onInsertCategory(category);
+    }
+
+    private void selectCategory() {
+        CategoryModel selected = categoryAdapter.getSelectedItem();
+        lastParentId = selected.getId();
+
+        // Se a categoria possuir filhos exibe a listagem com estes, caso nao possuia seleciona o item
+        if (selected.getChildrenCount() > 0) {
+
+            parent = selected;
+
+            // Adiciona um item da categoria na lista de hierarquia
+            navigationArray.add(parent);
+
+            // Mostra a listagem das categorias filhas da categoria selecionada
+            setCategory(parent);
+        }
+        // Categoria selecionada
+        else {
+            if (mListener != null && selected.isEnabled()) {
+                mListener.onSelectCategory(selected);
+            }
+        }
+    }
+
+    public boolean backCategory() {
+
+        // Remove um item da categoria
+        if(navigationArray.size() > 0) {
+            lastParentId = navigationArray.get(navigationArray.size() -1).getId();
+            navigationArray.remove(navigationArray.size() - 1);
+        }
+
+        // Se a listagem ja esta mostrando as categorias raiz, entao finaliza a atividade
+        if (navigationArray.size() == 0) {
+            return false;
+        }
+        // Mostra a listagem das categorias de nivel anterior
+        else {
+            setCategory(navigationArray.get(navigationArray.size() -1));
+            return true;
+        }
+
+    }
+
+
+    // Atualiza os arrays de navegação
+    public void updateNavigationArrays() {
+        // Atribui o array de navegacao
+        navigationArray = categoryListViewModel.getParentIdList(parent.getId());
+    }
+
+
+    // Atribui o id da categoria que terá a listagem de filhos exibida
+    public void setCategory(CategoryModel category) {
+        parent = category;
+        categoryListViewModel.setChildrenListIdInput(category.getId());
+    }
+
+
+    // Define se deve ser exibido a categoria [Nenhuma]
+    public void set_show_root(boolean show) {
+        this.show_root = show;
+    }
+
+
+    // Verifica se é para ser mostrado o botão de inserção
+    public boolean is_show_insert() {
+        return show_insert;
     }
 
 
     // Interface para ser implementado na atividade pai
     public interface OnCategoryListSelectListener {
-        void onCategoryListSelect(CategoryModel category);
+        void onInsertCategory(CategoryModel category);
+        void onSelectCategory(CategoryModel category);
     }
 
 

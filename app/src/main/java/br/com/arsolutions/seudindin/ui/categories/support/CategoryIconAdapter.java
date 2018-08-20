@@ -14,14 +14,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.regio.seudindin.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 // Classe responsavel por controlar os itens que serao exibidas na tela
-public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder> {
+public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconAdapter.CategoryIconHolder> {
 
     //Declaracao de variaveis
     private final List<Integer> iconList;
@@ -120,4 +124,19 @@ public class CategoryIconAdapter extends RecyclerView.Adapter<CategoryIconHolder
         return (iconList != null) ? iconList.size() : 0;
     }
 
+
+    // ************************************************************
+    // Classe interna que representa a tela de selecao dos icones
+    class CategoryIconHolder extends RecyclerView.ViewHolder {
+
+        // Declaracao e alimentacao das variaveis
+        @BindView(R.id.category_icon_image_info) public ImageView icon;
+
+
+        // Construtor da classe
+        public CategoryIconHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+        }
+    }
 }

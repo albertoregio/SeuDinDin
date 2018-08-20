@@ -11,10 +11,10 @@ public class CategoryModel implements Parcelable {
 
     // Declaracao de variaveis
     private Integer parentId = 0;
-    private String parentName;
+    private String parentName = App.getContext().getString(R.string.category_parent_novalue);
     private int id;
-    private String colorName;
-    private String iconName;
+    private String colorName = App.getResourceName(R.color.default_color_spinner);
+    private String iconName = App.getResourceName(R.drawable.ic_category_icon_empty);
     private String name;
 
     private boolean highlighted = false;
@@ -46,7 +46,7 @@ public class CategoryModel implements Parcelable {
         if (colorName != null)
             return App.getResourceColor(colorName);
         else
-            return null;
+            return App.getResourceColor(App.getResourceName(R.color.default_color_spinner));
     }
     public String getIconName() {
         return iconName;
@@ -55,7 +55,7 @@ public class CategoryModel implements Parcelable {
         if (iconName != null)
             return App.getResourceDrawable(iconName);
         else
-            return null;
+            return App.getResourceDrawable(App.getResourceName(R.drawable.ic_category_icon_empty));
     }
     public String getName() {
         return isShow_symbol_name() ? ("[ " + name + " ]") : name;
@@ -91,7 +91,7 @@ public class CategoryModel implements Parcelable {
         if (color != null)
             this.colorName = App.getResourceName(color);
         else
-            this.colorName = null;
+            this.colorName = App.getResourceName(R.color.default_color_spinner);
     }
     public void setColorName(String colorName) {
         this.colorName = colorName;
@@ -100,7 +100,7 @@ public class CategoryModel implements Parcelable {
         if (icon != null)
             this.iconName = App.getResourceName(icon);
         else
-            this.iconName = null;
+            this.iconName = App.getResourceName(R.drawable.ic_category_icon_empty);
     }
     public void setIconName(String iconName) {
         this.iconName = iconName;

@@ -18,19 +18,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="br.com.arsolutions.seudindin.ui.categories.CategoryListInsertActivity"
+            android:name="br.com.arsolutions.seudindin.ui.categories.CategoryListActivity"
             android:label="@string/category_list_title_edit" />
-        <activity
-            android:name="br.com.arsolutions.seudindin.ui.categories.CategoryListSelectActivity"
-            android:label="@string/category_list_title_edit" />
-        <activity
-            android:name="br.com.arsolutions.seudindin.ui.categories.CategoryDetailActivity"
-            android:parentActivityName="br.com.arsolutions.seudindin.ui.categories.CategoryListInsertActivity" />
         <activity android:name="br.com.arsolutions.seudindin.ui.accounts.AccountListActivity" />
         <activity
             android:name="br.com.arsolutions.seudindin.ui.accounts.AccountDetailActivity"
             android:label="@string/title_activity_account_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="br.com.arsolutions.seudindin.ui.categories.CategoryDetailActivity"></activity>
     </application>
 
 </manifest>

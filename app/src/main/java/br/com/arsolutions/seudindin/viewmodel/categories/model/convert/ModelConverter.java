@@ -13,6 +13,7 @@ public class ModelConverter {
     public static CategoryModel categoryChildrenToModel(CategoryChildrenCountQuery children) {
         CategoryModel model = new CategoryModel();
         model.setParentId(children.getParentId());
+        model.setParentName(children.getParentName());
         model.setId(children.getId());
         model.setName(children.getName());
         model.setColorName(children.getColor());

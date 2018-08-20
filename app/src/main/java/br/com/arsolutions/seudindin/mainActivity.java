@@ -8,8 +8,9 @@ import android.view.View;
 import com.example.regio.seudindin.R;
 
 import br.com.arsolutions.seudindin.ui.accounts.AccountListActivity;
-import br.com.arsolutions.seudindin.ui.categories.CategoryListInsertActivity;
+import br.com.arsolutions.seudindin.ui.categories.CategoryListActivity;
 
+import br.com.arsolutions.seudindin.viewmodel.categories.model.CategoryModel;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -28,7 +29,7 @@ public class mainActivity extends AppCompatActivity {
     // Metodo responsavel pelo clique do botao para exibicao das categorias
     @OnClick(R.id.main_btn_show_categories)
     public void showCategories(View view) {
-        Intent intent = new Intent(this, CategoryListInsertActivity.class);
+        Intent intent = new Intent(this, CategoryListActivity.class);
         startActivity(intent);
     }
 

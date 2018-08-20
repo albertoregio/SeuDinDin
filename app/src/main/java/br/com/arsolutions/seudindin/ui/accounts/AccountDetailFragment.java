@@ -2,12 +2,13 @@ package br.com.arsolutions.seudindin.ui.accounts;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,35 +16,37 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.example.regio.seudindin.R;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 import br.com.arsolutions.components.ColorSpinner;
 import br.com.arsolutions.seudindin.viewmodel.accounts.model.AccountModel;
-import br.com.arsolutions.seudindin.viewmodel.categories.model.CategoryModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
+// Classe responsavel por controlar o fragmentodo detalhe de uma conta
 public class AccountDetailFragment extends Fragment {
 
-    private OnAccountDetailListener mListener;
-    private AccountModel model;
-    private Context context;
-
+    // Declaracao e alimentacao das variaveis
     @BindView(R.id.account_detail_name) EditText nameTextView;
     @BindView(R.id.account_detail_opening_balance) CurrencyEditText openingBalanceTextView;
     @BindView(R.id.account_icon_image_info) ImageView icon;
-    @BindView(R.id.account_detail_initials) EditText initialsTextView;
+    @BindView(R.id.account_detail_initials) EditText initialsEditText;
     @BindView(R.id.account_detail_spn_select_colors) ColorSpinner colorSpinner;
     @BindView(R.id.account_detail_enabled_yes) RadioButton enabledYesRadioButton;
     @BindView(R.id.account_detail_enabled_no) RadioButton enabledNoRadioButton;
     @BindView(R.id.account_detail_input_layout_name) TextInputLayout nameInputLayout;
     @BindView(R.id.account_detail_input_layout_initials) TextInputLayout initialsInputLayout;
+    @BindView(R.id.account_detail_initials_text) TextView initialsTextView;
+
+    private OnAccountDetailListener mListener;
+    private AccountModel model;
+    private Context context;
 
 
     // Recupera uma nova instancia do fragmento
@@ -75,17 +78,6 @@ public class AccountDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        /*
-        // Recupera o modelo atraves dos argumentos passaods
-        model = this.getArguments().getParcelable("account");
-        if (model == null)
-            model = new AccountModel();
-
-        FragmentAccountDetailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account_detail, container, false);
-        binding.setAccount(model);
-        View view = binding.getRoot();
-        */
-
         View view = inflater.inflate(R.layout.fragment_account_detail, container, false);
         ButterKnife.bind(this, view);
         context = this.getContext();
@@ -94,9 +86,6 @@ public class AccountDetailFragment extends Fragment {
         model = this.getArguments().getParcelable("account");
         if (model == null)
             model = new AccountModel();
-
-        // Configura o combobox de selecao de cores
-        setupColorSelector();
 
         // Configura os componentes da tela
         setupUi();
@@ -108,12 +97,33 @@ public class AccountDetailFragment extends Fragment {
 
     // Metodo responsavel por configurar os componentes da tela
     private void setupUi() {
+        // Configura o combobox de selecao de cores
+        setupColorSelector();
+
+        // Configura os outros componentes de tela
         nameTextView.setText(model.getName());
         openingBalanceTextView.setText(model.getOpeningBalance().toString());
-        initialsTextView.setText(model.getInitials());
         colorSpinner.setSelection(colorSpinner.getIndex(model.getColor()));
         enabledYesRadioButton.setChecked(model.isEnabled());
         enabledNoRadioButton.setChecked(!model.isEnabled());
+        initialsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                initialsTextView.setText(String.valueOf(s));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        initialsEditText.setText(model.getInitials());
+
     }
 
 
@@ -124,12 +134,8 @@ public class AccountDetailFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 int color = colorSpinner.getColor(adapterView.getSelectedItemPosition());
 
-                // Recuperando a camada
-                final LayerDrawable layerDrawable = (LayerDrawable) icon.getDrawable();
-
                 // Cor do icone
-
-                final GradientDrawable iconShapeDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.ic_account_icon_color);
+                final GradientDrawable iconShapeDrawable = (GradientDrawable) icon.getDrawable();
                 iconShapeDrawable.setColor(ContextCompat.getColor(context, color));
             }
 
@@ -145,7 +151,7 @@ public class AccountDetailFragment extends Fragment {
     public AccountModel getModel() {
         model.setName(nameTextView.getText().toString());
         model.setOpeningBalance(BigDecimal.valueOf(openingBalanceTextView.getRawValue()));
-        model.setInitials(initialsTextView.getText().toString());
+        model.setInitials(initialsEditText.getText().toString());
         model.setColor(colorSpinner.getColor(colorSpinner.getSelectedItemPosition()));
         model.setEnabled(enabledYesRadioButton.isChecked());
         return model;

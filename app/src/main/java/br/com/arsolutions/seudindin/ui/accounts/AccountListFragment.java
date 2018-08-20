@@ -36,6 +36,7 @@ public class AccountListFragment extends Fragment {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private boolean editableMode = true;
+    private int itemPosition = 0;
 
     // Recupera uma nova instancia do fragmento
     public static AccountListFragment newInstance(Bundle args ) {
@@ -126,14 +127,16 @@ public class AccountListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(accountAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-
+        ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(itemPosition,0);
     }
 
 
     // Metodo responsavel por configurar os observers do view model
     private void setupObservers() {
-        final Observer<List<AccountModel>> accountListObserver = accountModelList ->
-                accountAdapter.setAccountList(accountModelList);
+        final Observer<List<AccountModel>> accountListObserver = accountModelList -> {
+            accountAdapter.setAccountList(accountModelList);
+            ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(itemPosition,0);
+        };
 
         //Recupera o viewModel e atribui os observers
         accountListViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
@@ -151,10 +154,12 @@ public class AccountListFragment extends Fragment {
 
     // Metodo responsavel pela seleção de um item
     public void editItem(AccountModel model) {
+        itemPosition = accountAdapter.getSelectedIndex();
         Intent intent = new Intent(context, AccountDetailActivity.class);
         intent.putExtra("operation", AccountDetailActivity.UPDATE);
         intent.putExtra("account", model);
         startActivity(intent);
+        ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(itemPosition,0);
     }
 
     // Verifica se está em modo de edição

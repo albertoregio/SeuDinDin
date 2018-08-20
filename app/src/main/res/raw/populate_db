@@ -116,3 +116,7 @@ insert into category(id,parentId,color,icon,name) values(110,15,"orange_200","ic
 insert into category(id,parentId,color,icon,name) values(111,15,"orange_200","ic_category_icon_car_key","Traffic fines");
 insert into category(id,parentId,color,icon,name) values(112,15,"orange_200","ic_category_icon_car_key","Toll");
 insert into category(id,parentId,color,icon,name) values(113,15,"orange_200","ic_category_icon_car_key","Taxi/Uber");
+
+insert into account(id, name, initials, color, enabled, openingBalance) values (1, "Checking account", "Ca", "blue_200", 1, 0);
+insert into account(id, name, initials, color, enabled, openingBalance) values (2, "Savings account", "Sa", "lime_200", 1, 0);
+insert into account(id, name, initials, color, enabled, openingBalance) values (3, "Wallet", "Wa", "yellow_200", 1, 0);

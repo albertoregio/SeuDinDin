@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme.NoActionBar"
+    >
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="br.com.arsolutions.seudindin.ui.categories.CategoryDetailFragment">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_parent_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/InputLabel"
+                    />
+
+                <Button
+                    android:id="@+id/category_detail_select_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_gravity="top"
+                    app:layout_anchor="@id/categoriesDetail_appbar"
+                    app:layout_anchorGravity="bottom"
+                    />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/categoriesDetail_inputLayout_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/ErrorText"
+                    >
+
+                    <EditText
+                        android:id="@+id/categoriesDetail_edt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="@string/category_name_label"
+                        android:inputType="textCapSentences"
+                        android:layout_gravity="bottom"
+                        android:imeOptions="actionDone"
+                        app:layout_anchor="@id/category_detail_select_parent"
+                        app:layout_anchorGravity="bottom"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/categoriesDetail_colors_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_icon_color_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/InputLabel"
+                    />
+
+                <br.com.arsolutions.components.ColorSpinner
+                    android:id="@+id/categoriesDetail_spn_select_colors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    />
+
+                <View
+                    android:id="@+id/categoriesDetail_spn_line_separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    style="@style/InputLabel"
+                    />
+
+                <TextView
+                    android:id="@+id/categoriesDetail_recycleview_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_icon_selection_label"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/InputLabel"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/category_icons_recycleview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    tools:listitem="@layout/layout_category_icon" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

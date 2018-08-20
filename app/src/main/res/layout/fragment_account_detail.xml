@@ -52,7 +52,6 @@
                     android:inputType="textCapSentences"
                     android:layout_gravity="bottom"
                     android:imeOptions="actionDone"
-                    android:text="@={account.name}"
                     app:layout_anchor="@id/account_detail_appbar"
                     app:layout_anchorGravity="bottom"
                     />
@@ -83,22 +82,35 @@
                     android:inputType="numberDecimal"
                     android:layout_gravity="bottom"
                     android:imeOptions="actionDone"
-                    android:text="@={account.name}"
                     app:layout_anchor="@id/account_detail_name"
                     app:layout_anchorGravity="bottom"
                     />
             </android.support.design.widget.TextInputLayout>
 
             <!-- ICON -->
-            <ImageView
-                android:id="@+id/account_icon_image_info"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/layer_account_icon" />
+                >
+                <ImageView
+                    android:id="@+id/account_icon_image_info"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/shape_circle" />
+
+                <TextView
+                    android:id="@+id/account_detail_initials_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="CC"
+                    android:textAppearance="@style/InitialsText" />
+            </RelativeLayout>
 
 
             <!-- INITIALS -->
@@ -125,7 +137,7 @@
                     android:inputType="textCapSentences"
                     android:layout_gravity="bottom"
                     android:imeOptions="actionDone"
-                    android:text="@={account.initials}"
+                    android:maxLength="2"
                     app:layout_anchor="@id/account_detail_initials"
                     app:layout_anchorGravity="bottom"
                     />

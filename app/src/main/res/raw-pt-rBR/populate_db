@@ -127,3 +127,7 @@ insert into category(id,parentId,color,icon,name) values(110,15,"orange_200","ic
 insert into category(id,parentId,color,icon,name) values(111,15,"orange_200","ic_category_icon_car_key","Multas de trânsito");
 insert into category(id,parentId,color,icon,name) values(112,15,"orange_200","ic_category_icon_car_key","Pedágio");
 insert into category(id,parentId,color,icon,name) values(113,15,"orange_200","ic_category_icon_car_key","Táxi/Uber");
+
+insert into account(id, name, initials, color, enabled, openingBalance) values (1, "Carteira", "Ca", "blue_200", 1, 0);
+insert into account(id, name, initials, color, enabled, openingBalance) values (2, "Conta Corrente", "Cc", "lime_200", 1, 0);
+insert into account(id, name, initials, color, enabled, openingBalance) values (3, "Poupança", "Po", "yellow_200", 1, 0);

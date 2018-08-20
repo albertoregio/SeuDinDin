@@ -30,6 +30,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     private final Context mContext;
     private List<AccountModel> accountList = new ArrayList<>(0);
     private AccountModel selectedItem;
+    private int selectedIndex;
     private View.OnClickListener onClickListener;
 
 
@@ -59,21 +60,23 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
 
                 // Atribui o campo Nome
                 holder.account.setText(account.getName());
-                // Recuperando a camada
-                final LayerDrawable layerDrawable = (LayerDrawable) holder.icon.getDrawable();
 
                 // Cor do icone
                 if (account.getColor() != null) {
                     int color = ContextCompat.getColor(mContext, account.getColor());
-                    final GradientDrawable gradientDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.ic_account_icon_color);
+                    final GradientDrawable gradientDrawable = (GradientDrawable) holder.icon.getDrawable();
                     gradientDrawable.setColor(color);
                     gradientDrawable.setStroke(0, R.color.default_color_stroke);
                 }
+
+                // Letras do icone
+                holder.initials.setText(account.getInitials());
 
                 // Evento de clique
                 holder.layout.setOnClickListener(v -> {
                     if (onClickListener != null) {
                         selectedItem = account;
+                        selectedIndex = position;
                         onClickListener.onClick(v);
                     }
                 });
@@ -94,6 +97,12 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     // Recupera a categoria selecionada
     public AccountModel getSelectedItem() {
         return selectedItem;
+    }
+
+
+    // Recupera o indice da categoria selecionada
+    public int getSelectedIndex() {
+        return selectedIndex;
     }
 
 
@@ -123,6 +132,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
         // Declaracao e alimentacao das variaveis
         @BindView(R.id.account_list_image) ImageView icon;
         @BindView(R.id.account_list_name) TextView account;
+        @BindView(R.id.account_detail_initials_text) TextView initials;
         @BindView(R.id.account_list_layout) RelativeLayout layout;
 
 
